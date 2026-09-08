@@ -1,0 +1,164 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-deep: var(--gold-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.11 0.006 60);
+  --foreground: oklch(0.97 0.005 90);
+  --card: oklch(0.145 0.008 70);
+  --card-foreground: oklch(0.97 0.005 90);
+  --popover: oklch(0.145 0.008 70);
+  --popover-foreground: oklch(0.97 0.005 90);
+  --primary: oklch(0.78 0.107 85);
+  --primary-foreground: oklch(0.12 0.006 60);
+  --secondary: oklch(0.2 0.01 70);
+  --secondary-foreground: oklch(0.97 0.005 90);
+  --muted: oklch(0.2 0.01 70);
+  --muted-foreground: oklch(0.72 0.012 85);
+  --accent: oklch(0.24 0.02 80);
+  --accent-foreground: oklch(0.97 0.005 90);
+  --destructive: oklch(0.6 0.21 25);
+  --destructive-foreground: oklch(0.98 0.005 90);
+  --border: oklch(0.78 0.107 85 / 22%);
+  --input: oklch(0.78 0.107 85 / 28%);
+  --ring: oklch(0.78 0.107 85 / 60%);
+  --gold: oklch(0.78 0.107 85);
+  --gold-soft: oklch(0.88 0.06 90);
+  --gold-deep: oklch(0.62 0.096 80);
+  --ink: oklch(0.11 0.006 60);
+  --ink-soft: oklch(0.16 0.008 70);
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+  }
+}
+
+@utility gold-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--gold-deep),
+    var(--gold-soft) 45%,
+    var(--gold) 70%,
+    var(--gold-deep)
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+@utility gold-rule {
+  height: 1px;
+  width: 100%;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--gold) 50%,
+    transparent
+  );
+}
+
+@utility eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@keyframes tm-rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-90vh) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes tm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility fade-up {
+  animation: tm-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
