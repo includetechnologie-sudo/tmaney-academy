@@ -24,10 +24,10 @@ export function Preloader() {
       style={{ opacity: leaving ? 0 : 1 }}
     >
       <div className="fade-up flex flex-col items-center gap-6 px-8">
-        <div className="rounded-full bg-white px-8 py-6 shadow-[0_0_60px_-10px_var(--gold)]">
+        <div className="flex items-center justify-center">
           <Logo className="h-16 sm:h-20" />
         </div>
-        <p className="eyebrow text-center">Corsetterie d'exception</p>
+        <p className="eyebrow text-center">L'art de la haute couture</p>
         <div className="relative h-px w-48 overflow-hidden bg-border">
           <span
             className="absolute inset-y-0 left-0 bg-gold"

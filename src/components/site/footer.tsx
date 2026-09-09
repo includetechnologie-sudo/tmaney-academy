@@ -4,15 +4,14 @@ import { Logo } from "./brand";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-ink-soft">
+    <footer className="border-t border-border">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 sm:px-8 md:grid-cols-3">
         <div>
-          <span className="inline-block rounded-sm bg-white px-4 py-3">
+          <div className="inline-flex items-center justify-center">
             <Logo className="h-12" />
-          </span>
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Académie de corsetterie et de couture haute précision. Former des mains d'exception,
-            une silhouette à la fois.
+          </div>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+            Centre de formation professionnelle agréé par le ministère de l'Emploi et de la Formation professionnelle du Cameroun. L'académie est dédiée à l'apprentissage et au perfectionnement du métier de styliste-modéliste.
           </p>
         </div>
 

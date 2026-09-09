@@ -17,7 +17,7 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 export function About() {
   return (
-    <section id="academie" className="border-t border-border bg-ink py-24 sm:py-32">
+    <section id="academie" className="border-t border-border py-24 sm:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 sm:px-8 lg:grid-cols-2">
         <div className="relative">
           <img
@@ -59,7 +59,7 @@ export function About() {
               { icon: Sparkles, t: "Finitions couture", d: "Le niveau de détail attendu d'une pièce de luxe." },
               { icon: Award, t: "Certification", d: "Certificat de compétence remis en fin de MasterClass." },
             ].map((f) => (
-              <div key={f.t} className="border border-border p-6">
+              <div key={f.t} className="border border-border bg-card p-6">
                 <f.icon className="text-gold" size={22} />
                 <h3 className="mt-4 text-xl">{f.t}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.d}</p>
@@ -111,7 +111,7 @@ const programs = [
 
 export function Programs() {
   return (
-    <section id="formations" className="border-t border-border bg-ink-soft py-24 sm:py-32">
+    <section id="formations" className="border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <SectionTitle eyebrow="Nos formations" title="Programmes d'excellence" />
 
@@ -120,7 +120,7 @@ export function Programs() {
             <article
               key={p.name}
               className={`flex flex-col border p-9 transition-colors ${
-                p.featured ? "border-gold bg-ink" : "border-border bg-ink/40 hover:border-gold/50"
+                p.featured ? "border-gold bg-card" : "border-border bg-card/60 hover:border-gold/50"
               }`}
             >
               {p.featured && (
@@ -168,7 +168,7 @@ const gallery = [
 
 export function Gallery() {
   return (
-    <section id="galerie" className="border-t border-border bg-ink py-24 sm:py-32">
+    <section id="galerie" className="border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -212,12 +212,12 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="temoignages" className="border-t border-border bg-ink-soft py-24 sm:py-32">
+    <section id="temoignages" className="border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <SectionTitle eyebrow="Témoignages" title="Elles sont passées par ici" />
         <div className="mt-16 grid gap-8 lg:grid-cols-3">
           {testimonials.map((t) => (
-            <blockquote key={t.name} className="border border-border p-9">
+            <blockquote key={t.name} className="border border-border bg-card p-9">
               <p className="font-display text-2xl leading-relaxed text-foreground/90 italic">
                 « {t.quote} »
               </p>

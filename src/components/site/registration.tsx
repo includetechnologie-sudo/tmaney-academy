@@ -58,7 +58,7 @@ export function Registration() {
   }
 
   return (
-    <section id="inscription" className="border-t border-border bg-ink py-24 sm:py-32">
+    <section id="inscription" className="border-t border-border py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-6 sm:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow">Inscription</p>

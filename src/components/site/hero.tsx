@@ -2,25 +2,26 @@ import { useEffect, useState } from "react";
 
 import { GoldParticles } from "./brand";
 
-const p1 = { url: "/images/photo-p1-diplomee.jpg" };
-const p2 = { url: "/images/photo-p2-mannequin.jpg" };
-const p3 = { url: "/images/photo-p3-groupe.jpg" };
-
 const slides = [
   {
-    url: p1.url,
-    alt: "Diplômée de la MasterClass Corset présentant son certificat de compétence",
+    url: "/images/hero-1-diplome.jpg",
+    alt: "Diplômée de la MasterClass présentant fièrement son certificat de compétence",
     position: "50% 30%",
   },
   {
-    url: p2.url,
-    alt: "Formatrice T.Maney Academy et un corset en pagne monté sur mannequin",
-    position: "55% 40%",
+    url: "/images/hero-2-atelier.jpg",
+    alt: "Atelier T.Maney Academy équipé de machines à coudre professionnelles",
+    position: "50% 50%",
   },
   {
-    url: p3.url,
-    alt: "Promotion de la MasterClass Corset réunie à l'académie",
-    position: "50% 45%",
+    url: "/images/hero-3-robe-blanche.jpg",
+    alt: "Magnifique robe de mariée blanche avec traîne structurée",
+    position: "50% 40%",
+  },
+  {
+    url: "/images/hero-4-robe-rose.jpg",
+    alt: "Création haute couture en tulle rose sur le podium",
+    position: "50% 35%",
   },
 ];
 
@@ -43,7 +44,7 @@ export function Hero() {
           style={{ opacity: i === index ? 1 : 0, objectPosition: s.position }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/70 to-ink" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-background" />
       <GoldParticles />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 pt-32 pb-24 sm:px-8">
