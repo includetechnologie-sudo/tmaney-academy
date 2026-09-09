@@ -47,8 +47,19 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-border px-6 py-6 text-center text-xs tracking-[0.18em] text-muted-foreground uppercase">
-        © {new Date().getFullYear()} T.Maney Academy® — tmaneyacademy.com
+      <div className="border-t border-border px-6 py-6">
+        <div className="flex flex-col items-center justify-center gap-3 text-center text-xs tracking-[0.18em] text-muted-foreground uppercase sm:flex-row sm:gap-6">
+          <span>© {new Date().getFullYear()} T.Maney Academy® — tmaneyacademy.com</span>
+          <span className="hidden sm:inline">·</span>
+          <a
+            href="https://includetechnologie.fr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold transition-colors hover:text-gold-soft"
+          >
+            Built by Include Technologie
+          </a>
+        </div>
       </div>
     </footer>
   );

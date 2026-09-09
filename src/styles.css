@@ -99,7 +99,11 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 300;
+    font-weight: 400;
+  }
+  
+  p, li, a {
+    font-weight: 400;
   }
 }
 
@@ -138,11 +142,31 @@
     transform: translateY(0) scale(1);
     opacity: 0;
   }
-  12% {
-    opacity: 0.85;
+  8% {
+    opacity: 0.75;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(-90vh) scale(0.4);
+    transform: translateY(-95vh) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes magic-particle {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--offset-x), var(--offset-y)) scale(0) rotate(180deg);
     opacity: 0;
   }
 }

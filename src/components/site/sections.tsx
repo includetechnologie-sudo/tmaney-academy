@@ -1,9 +1,17 @@
-import { Award, Ruler, Scissors, Sparkles } from "lucide-react";
+import { Award, Ruler, Scissors, Sparkles, X } from "lucide-react";
+import { useState } from "react";
 
 const p1 = { url: "/images/photo-p1-diplomee.jpg" };
 const p2 = { url: "/images/photo-p2-mannequin.jpg" };
 const p3 = { url: "/images/photo-p3-groupe.jpg" };
 const p4 = { url: "/images/photo-p4-placeholder.jpg" };
+
+const heroImages = [
+  { url: "/images/hero-1-diplome.jpg", alt: "Diplômée présentant son certificat de compétence" },
+  { url: "/images/hero-2-atelier.jpg", alt: "Atelier T.Maney Academy avec machines professionnelles" },
+  { url: "/images/hero-3-robe-blanche.jpg", alt: "Robe de mariée structurée haute couture" },
+  { url: "/images/hero-4-robe-rose.jpg", alt: "Création en tulle rose sur podium" },
+];
 
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
@@ -17,8 +25,8 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 export function About() {
   return (
-    <section id="academie" className="border-t border-border py-24 sm:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 sm:px-8 lg:grid-cols-2">
+    <section id="academie" className="border-t border-border py-16 sm:py-24 lg:py-32">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2">
         <div className="relative">
           <img
             src={p2.url}
@@ -111,7 +119,7 @@ const programs = [
 
 export function Programs() {
   return (
-    <section id="formations" className="border-t border-border py-24 sm:py-32">
+    <section id="formations" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <SectionTitle eyebrow="Nos formations" title="Programmes d'excellence" />
 
@@ -164,28 +172,59 @@ const gallery = [
   { url: p3.url, alt: "Promotion de la MasterClass Corset avec leurs certificats" },
   { url: p1.url, alt: "Diplômée posant avec son certificat et son mètre ruban" },
   { url: p2.url, alt: "Corset en pagne bleu et jaune monté sur mannequin de couture" },
+  ...heroImages,
 ];
 
 export function Gallery() {
+  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+
   return (
-    <section id="galerie" className="border-t border-border py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
-        <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
-        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {gallery.map((g) => (
-            <figure key={g.alt} className="group overflow-hidden">
-              <img
-                src={g.url}
-                alt={g.alt}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                style={{ aspectRatio: "3 / 4" }}
-              />
-            </figure>
-          ))}
+    <>
+      <section id="galerie" className="border-t border-border py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-6 sm:px-8">
+          <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {gallery.map((g) => (
+              <figure
+                key={g.alt}
+                className="group cursor-pointer overflow-hidden"
+                onClick={() => setLightbox(g)}
+              >
+                <img
+                  src={g.url}
+                  alt={g.alt}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  style={{ aspectRatio: "3 / 4" }}
+                />
+              </figure>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            className="absolute right-4 top-4 text-gold transition-colors hover:text-gold-soft sm:right-8 sm:top-8"
+            aria-label="Fermer"
+          >
+            <X size={32} />
+          </button>
+          <img
+            src={lightbox.url}
+            alt={lightbox.alt}
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </>
   );
 }
 
@@ -212,7 +251,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section id="temoignages" className="border-t border-border py-24 sm:py-32">
+    <section id="temoignages" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <SectionTitle eyebrow="Témoignages" title="Elles sont passées par ici" />
         <div className="mt-16 grid gap-8 lg:grid-cols-3">

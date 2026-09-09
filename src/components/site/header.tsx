@@ -38,7 +38,7 @@ export function Header() {
             <a
               key={l.href}
               href={l.href}
-              className="text-xs uppercase tracking-[0.22em] text-foreground/75 transition-colors hover:text-gold"
+              className="text-xs font-bold italic uppercase tracking-[0.22em] text-foreground transition-colors hover:text-gold"
             >
               {l.label}
             </a>
@@ -69,7 +69,7 @@ export function Header() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-sm uppercase tracking-[0.24em] text-foreground/80"
+                className="text-sm font-bold italic uppercase tracking-[0.24em] text-foreground"
               >
                 {l.label}
               </a>
