@@ -22,7 +22,7 @@ export function Map() {
         <div className="mt-16 overflow-hidden rounded-lg border-2 border-gold/30 shadow-xl">
           <div className="relative" style={{ paddingBottom: "56.25%" }}>
             <iframe
-              src={`https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3980.8374691234567!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zM8KwNTQnMDUuOSJOIDExwrAzMycdwrAwOS44IkU!5e0!3m2!1sfr!2scm!4v1234567890123!5m2!1sfr!2scm`}
+              src={`https://www.google.com/maps?q=${latitude},${longitude}&hl=fr&z=16&output=embed`}
               className="absolute inset-0 h-full w-full"
               style={{ border: 0 }}
               allowFullScreen

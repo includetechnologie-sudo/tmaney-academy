@@ -5,10 +5,11 @@ import { Logo } from "./brand";
 
 const links = [
   { href: "#academie", label: "L'Académie" },
+  { href: "#formations-en-ligne", label: "Formations en ligne" },
   { href: "#formations", label: "Formations" },
   { href: "#galerie", label: "Galerie" },
   { href: "#temoignages", label: "Témoignages" },
-  { href: "#contact", label: "Contact" },
+  { href: "#localisation", label: "Localisation" },
 ];
 
 export function Header() {
