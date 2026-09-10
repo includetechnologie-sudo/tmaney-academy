@@ -6,7 +6,8 @@ import { Hero } from "@/components/site/hero";
 import { MeetYourMentor } from "@/components/site/mentor";
 import { Preloader } from "@/components/site/preloader";
 import { Registration } from "@/components/site/registration";
-import { About, Gallery, Programs, Testimonials } from "@/components/site/sections";
+import { About, Gallery, Programs } from "@/components/site/sections";
+import { TestimonialsVideo } from "@/components/site/testimonials-video";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,7 +42,7 @@ function Index() {
         <About />
         <Programs />
         <Gallery />
-        <Testimonials />
+        <TestimonialsVideo />
         <Registration />
       </main>
       <Footer />
