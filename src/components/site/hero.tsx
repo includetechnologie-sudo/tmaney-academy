@@ -104,9 +104,7 @@ export function Hero() {
         <div className="max-w-3xl fade-up">
           <p className="eyebrow">Yaoundé · Cameroun</p>
           <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
-            L'art du <span className="gold-text italic">corset</span>,
-            <br />
-            enseigné avec exigence.
+            Découvrez les secrets de la <span className="gold-text italic">haute couture</span>.
           </h1>
           <div className="gold-rule mt-8 max-w-xs" />
           <p className="mt-8 max-w-xl text-sm font-medium leading-relaxed text-foreground sm:text-base md:text-lg">
@@ -116,16 +114,16 @@ export function Hero() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
             <a
-              href="#inscription"
+              href="#formations"
               className="bg-gold px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-90 sm:px-9 sm:py-4"
             >
-              Réserver ma place
+              Nos formations en ligne
             </a>
             <a
               href="#formations"
               className="border border-gold/60 px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-gold transition-colors hover:border-gold sm:px-9 sm:py-4"
             >
-              Découvrir les formations
+              Nos formations en présentiel
             </a>
           </div>
         </div>

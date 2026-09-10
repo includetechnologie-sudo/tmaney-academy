@@ -1,5 +1,7 @@
-import { Award, Ruler, Scissors, Sparkles, X } from "lucide-react";
-import { useState } from "react";
+import { Monitor, BookOpen, Users, Award, X, MapPin, Phone, Calendar, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Countdown } from "./countdown";
+import { Confetti } from "./confetti";
 
 const p1 = { url: "/images/photo-p1-diplomee.jpg" };
 const p2 = { url: "/images/photo-p2-mannequin.jpg" };
@@ -62,10 +64,26 @@ export function About() {
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {[
-              { icon: Ruler, t: "Patronage sur mesure", d: "Méthode de tracé rigoureuse, adaptée à chaque morphologie." },
-              { icon: Scissors, t: "Structure & baleinage", d: "Montage, renforts et tenue parfaite du corset." },
-              { icon: Sparkles, t: "Finitions couture", d: "Le niveau de détail attendu d'une pièce de luxe." },
-              { icon: Award, t: "Certification", d: "Certificat de compétence remis en fin de MasterClass." },
+              { 
+                icon: Monitor, 
+                t: "100% En Ligne", 
+                d: "Formez-vous depuis le confort de votre maison où que vous soyez dans le monde." 
+              },
+              { 
+                icon: BookOpen, 
+                t: "Pédagogie Pas-à-Pas", 
+                d: "Les techniques les plus complexes expliquées étape par étape." 
+              },
+              { 
+                icon: Users, 
+                t: "Suivi et accompagnement", 
+                d: "Un groupe privé réservé aux apprenant(e)s pour poser vos questions." 
+              },
+              { 
+                icon: Award, 
+                t: "Certification", 
+                d: "Certificat de compétence délivrée après la validation de vos travaux." 
+              },
             ].map((f) => (
               <div key={f.t} className="border border-border bg-card p-6">
                 <f.icon className="text-gold" size={22} />
@@ -82,82 +100,215 @@ export function About() {
 
 const programs = [
   {
-    name: "Corset MasterClass",
-    duration: "10 jours intensifs",
-    price: "300 000 FCFA",
+    name: "Débutant",
+    duration: "9 mois",
+    tranches: [
+      { label: "1ère tranche", price: "150 000 F" },
+      { label: "2ème tranche", price: "100 000 F" },
+      { label: "3ème tranche", price: "50 000 F" },
+    ],
+    totalPrice: "300 000 FCFA",
     points: [
-      "Prise de mesures et patronage complet",
-      "Montage, baleinage et pose d'œillets",
-      "Corset bustier, corset waist et corset pagne",
+      "Bases de la couture professionnelle",
+      "Patronage et techniques de coupe",
+      "Montage et finitions",
       "Certificat de compétence",
     ],
     featured: true,
   },
   {
-    name: "Bustier & Robe structurée",
-    duration: "5 jours",
-    price: "Sur demande",
+    name: "Intermédiaire",
+    duration: "9 mois",
+    tranches: [
+      { label: "1ère tranche", price: "200 000 F" },
+      { label: "2ème tranche", price: "150 000 F" },
+      { label: "3ème tranche", price: "50 000 F" },
+    ],
+    totalPrice: "400 000 FCFA",
     points: [
-      "Bases du bustier intégré",
-      "Robes de soirée structurées",
-      "Travail du tissu et des renforts",
+      "Techniques avancées de couture",
+      "Création de modèles complexes",
+      "Adaptation sur mesure",
+      "Certificat de compétence",
     ],
     featured: false,
   },
   {
-    name: "Accompagnement Pro",
-    duration: "Programme personnalisé",
-    price: "Sur demande",
+    name: "Perfectionnement",
+    duration: "6 mois",
+    tranches: [
+      { label: "1ère tranche", price: "200 000 F" },
+      { label: "2ème tranche", price: "200 000 F" },
+      { label: "3ème tranche", price: "100 000 F" },
+    ],
+    totalPrice: "500 000 FCFA",
     points: [
-      "Perfectionnement individuel",
-      "Lancement de votre atelier",
-      "Suivi post-formation",
+      "Maîtrise de la Haute Couture",
+      "Techniques de luxe et raffinement",
+      "Développement de votre style",
+      "Certificat de compétence",
     ],
     featured: false,
   },
 ];
 
 export function Programs() {
+  const targetDate = new Date("2026-10-05T09:00:00");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+
+  useEffect(() => {
+    const checkIfFinished = () => {
+      const now = new Date();
+      if (now >= targetDate && !isFinished) {
+        setIsFinished(true);
+        setShowConfetti(true);
+        // Confetti pendant 6 secondes
+        setTimeout(() => setShowConfetti(false), 6000);
+      }
+    };
+
+    checkIfFinished();
+    const interval = setInterval(checkIfFinished, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate, isFinished]);
+
   return (
     <section id="formations" className="border-t border-border py-16 sm:py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8">
+      <Confetti show={showConfetti} />
+      
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <SectionTitle eyebrow="Nos formations" title="Programmes d'excellence" />
 
+        {/* Bloc infos avant les programmes */}
+        <div className="mx-auto mt-12 max-w-4xl">
+          <div className="rounded-lg border-2 border-gold/30 bg-card p-6 sm:p-8 md:p-10">
+            <h3 className="text-center text-2xl font-semibold sm:text-3xl">
+              Formez-vous & Devenez <span className="gold-text italic">Styliste Modéliste</span>
+            </h3>
+            
+            <div className="mt-6 space-y-3 text-center text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="font-semibold text-foreground">
+                Modules : Haute Couture sur mesure • Prêt-à-porter • Fashion Entrepreneuriat
+              </p>
+            </div>
+
+            {/* Countdown */}
+            <div className="my-8 border-y border-border py-8">
+              <p className="mb-6 text-center text-xs uppercase tracking-[0.24em] text-gold">
+                Prochaine Rentrée
+              </p>
+              <Countdown targetDate={targetDate} />
+            </div>
+
+            {/* Infos pratiques */}
+            <div className="mt-8 grid gap-4 text-sm sm:grid-cols-2">
+              <div className="flex items-start gap-3">
+                <Calendar className="mt-0.5 shrink-0 text-gold" size={18} />
+                <div>
+                  <p className="font-semibold text-foreground">Prochaine Rentrée</p>
+                  <p className="text-muted-foreground">05 Octobre 2026</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <Clock className="mt-0.5 shrink-0 text-gold" size={18} />
+                <div>
+                  <p className="font-semibold text-foreground">Horaires</p>
+                  <p className="text-muted-foreground">09h00 à 16h00 (Lundi au Vendredi)</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <Phone className="mt-0.5 shrink-0 text-gold" size={18} />
+                <div>
+                  <p className="font-semibold text-foreground">WhatsApp</p>
+                  <a 
+                    href="https://wa.me/237697216348" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gold hover:underline"
+                  >
+                    (+237) 697 21 63 48
+                  </a>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 shrink-0 text-gold" size={18} />
+                <div>
+                  <p className="font-semibold text-foreground">Localisation</p>
+                  <p className="text-muted-foreground">Descente éleveur, Ngousso (Yaoundé)</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-2 border-t border-border pt-6 text-center text-sm">
+              <p className="text-foreground">
+                <span className="font-semibold text-gold">Frais d'inscription :</span> 50 000 FCFA
+              </p>
+              <p className="text-muted-foreground">Stage en entreprise • Places limitées</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Grille des programmes */}
         <div className="mt-16 grid gap-8 lg:grid-cols-3">
           {programs.map((p) => (
             <article
               key={p.name}
-              className={`flex flex-col border p-9 transition-colors ${
-                p.featured ? "border-gold bg-card" : "border-border bg-card/60 hover:border-gold/50"
+              className={`flex flex-col rounded-lg border p-6 transition-all sm:p-8 ${
+                p.featured 
+                  ? "border-gold bg-card shadow-[0_0_30px_-10px_var(--gold)]" 
+                  : "border-border bg-card/60 hover:border-gold/50 hover:shadow-lg"
               }`}
             >
               {p.featured && (
-                <span className="mb-5 self-start border border-gold px-3 py-1 text-[0.6rem] uppercase tracking-[0.24em] text-gold">
-                  Session phare
+                <span className="mb-4 self-start rounded-full border border-gold bg-gold/10 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-gold">
+                  🔥 Populaire
                 </span>
               )}
-              <h3 className="text-3xl">{p.name}</h3>
+              
+              <h3 className="text-2xl font-semibold sm:text-3xl">{p.name}</h3>
               <p className="mt-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 {p.duration}
               </p>
-              <ul className="mt-7 flex-1 space-y-3 text-sm text-muted-foreground">
+
+              {/* Paiement par tranches */}
+              <div className="my-6 space-y-2 rounded-lg border border-border bg-background/50 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                  Paiement par tranches
+                </p>
+                {p.tranches.map((tranche) => (
+                  <div key={tranche.label} className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{tranche.label}</span>
+                    <span className="font-semibold text-foreground">{tranche.price}</span>
+                  </div>
+                ))}
+                <div className="mt-3 flex justify-between border-t border-border pt-3 text-base font-bold">
+                  <span className="text-foreground">Total</span>
+                  <span className="text-gold">{p.totalPrice}</span>
+                </div>
+              </div>
+
+              <ul className="mb-6 flex-1 space-y-3 text-sm text-muted-foreground">
                 {p.points.map((pt) => (
                   <li key={pt} className="flex gap-3">
-                    <span className="mt-2 h-px w-4 shrink-0 bg-gold" />
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
                     {pt}
                   </li>
                 ))}
               </ul>
-              <p className="mt-8 font-display text-3xl text-gold">{p.price}</p>
+
               <a
                 href="#inscription"
-                className={`mt-6 px-6 py-3 text-center text-xs uppercase tracking-[0.24em] transition-opacity ${
+                className={`mt-auto block rounded-lg px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] transition-all ${
                   p.featured
-                    ? "bg-gold text-primary-foreground hover:opacity-90"
-                    : "border border-gold/60 text-gold hover:border-gold"
+                    ? "bg-gold text-primary-foreground shadow-md hover:opacity-90 hover:shadow-lg"
+                    : "border-2 border-gold/60 text-gold hover:border-gold hover:bg-gold/5"
                 }`}
               >
-                Je m'inscris
+                Je m'inscris maintenant
               </a>
             </article>
           ))}
