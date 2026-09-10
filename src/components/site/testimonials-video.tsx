@@ -15,21 +15,21 @@ const testimonials: VideoTestimonial[] = [
     videoId: "7520658934659566870",
     name: "ONANA MBOLO Jeanne",
     role: "Ancienne élève",
-    thumbnail: "/images/testimonial-jeanne.jpg",
+    thumbnail: "/images/jeanne.jpg",
   },
   {
     id: "denise",
     videoId: "7519962999466003734",
     name: "Mme Denise",
     role: "Créatrice",
-    thumbnail: "/images/testimonial-denise.jpg",
+    thumbnail: "/images/denise.jpg",
   },
   {
     id: "sandrine",
     videoId: "7518070771437079830",
     name: "Mme MEDOM Sandrine",
     role: "Styliste",
-    thumbnail: "/images/testimonial-sandrine.jpg",
+    thumbnail: "/images/sandrine.jpg",
   },
 ];
 
