@@ -96,31 +96,26 @@ export function Hero() {
           style={{ opacity: i === index ? 1 : 0, objectPosition: s.position }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/85" />
+      {/* Dégradé gris-doré pour meilleure lisibilité */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/85 via-gray-800/80 to-amber-900/70" />
       <GoldParticles />
       <MagicSwipeParticles particles={swipeParticles} />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-32 sm:pb-24 md:px-8">
         <div className="max-w-3xl fade-up">
-          <p className="eyebrow">Yaoundé · Cameroun</p>
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
             Découvrez les secrets de la <span className="gold-text italic">haute couture</span>.
           </h1>
           <div className="gold-rule mt-8 max-w-xs" />
-          <p className="mt-8 max-w-xl text-sm font-medium leading-relaxed text-foreground sm:text-base md:text-lg">
-            T.Maney Academy forme les couturières et créatrices d'Afrique aux techniques de la
-            corsetterie haut de gamme : patronage sur mesure, structure, baleinage et finitions
-            couture. Une pédagogie intense, certifiante, et résolument premium.
-          </p>
           <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
             <a
-              href="#formations"
+              href="#formations-en-ligne"
               className="bg-gold px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-90 sm:px-9 sm:py-4"
             >
               Nos formations en ligne
             </a>
             <a
-              href="#formations"
+              href="#inscription"
               className="border border-gold/60 px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-gold transition-colors hover:border-gold sm:px-9 sm:py-4"
             >
               Nos formations en présentiel

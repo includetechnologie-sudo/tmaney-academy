@@ -1,11 +1,18 @@
-import { Monitor, BookOpen, Users, Award, X, MapPin, Phone, Calendar, Clock } from "lucide-react";
+import { Monitor, BookOpen, Users, Award, X, MapPin, Phone, Calendar, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Countdown } from "./countdown";
 import { Confetti } from "./confetti";
 import { GallerySlider } from "./gallery-slider";
 
 const p1 = { url: "/images/photo-p1-diplomee.jpg" };
-const p2 = { url: "/images/photo-p2-mannequin.jpg" };
+const academyPhotos = [
+  { url: "/images/photo-p2-mannequin.jpg", alt: "Travail d'apprenante - Création haute couture" },
+  { url: "/images/photo-p3-mannequin.jpg", alt: "Travail d'apprenante - Robe structurée" },
+  { url: "/images/photo-p4-mannequin.jpg", alt: "Travail d'apprenante - Corsetterie" },
+  { url: "/images/photo-p5-mannequin.jpg", alt: "Travail d'apprenante - Mode sur mesure" },
+  { url: "/images/photo-p6-mannequin.jpg", alt: "Travail d'apprenante - Collection" },
+  { url: "/images/photo-p7-mannequin.jpg", alt: "Travail d'apprenante - Design créatif" },
+];
 const p3 = { url: "/images/photo-p3-groupe.jpg" };
 const p4 = { url: "/images/photo-p4-placeholder.jpg" };
 
@@ -27,17 +34,80 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 }
 
 export function About() {
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
+  // Auto-rotation des photos toutes les 4 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhotoIndex((prev) => (prev + 1) % academyPhotos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % academyPhotos.length);
+  };
+
+  const prevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + academyPhotos.length) % academyPhotos.length);
+  };
+
   return (
     <section id="academie" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2">
-        <div className="relative">
-          <img
-            src={p2.url}
-            alt="Formatrice de T.Maney Academy présentant un corset en pagne"
-            className="w-full object-cover"
-            style={{ aspectRatio: "4 / 5" }}
-            loading="lazy"
-          />
+        {/* Carousel de photos */}
+        <div className="relative group">
+          <div className="relative overflow-hidden">
+            {academyPhotos.map((photo, index) => (
+              <img
+                key={photo.url}
+                src={photo.url}
+                alt={photo.alt}
+                className="w-full object-cover transition-opacity duration-700"
+                style={{ 
+                  aspectRatio: "4 / 5",
+                  opacity: index === currentPhotoIndex ? 1 : 0,
+                  position: index === currentPhotoIndex ? 'relative' : 'absolute',
+                  inset: index === currentPhotoIndex ? 'auto' : '0',
+                }}
+                loading="lazy"
+              />
+            ))}
+          </div>
+
+          {/* Flèches de navigation */}
+          <button
+            type="button"
+            onClick={prevPhoto}
+            className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-gold opacity-0 transition-all hover:bg-black/80 group-hover:opacity-100"
+            aria-label="Photo précédente"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            type="button"
+            onClick={nextPhoto}
+            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-2 text-gold opacity-0 transition-all hover:bg-black/80 group-hover:opacity-100"
+            aria-label="Photo suivante"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          {/* Indicateurs */}
+          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+            {academyPhotos.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setCurrentPhotoIndex(index)}
+                className={`h-1.5 transition-all ${
+                  index === currentPhotoIndex ? "w-8 bg-gold" : "w-1.5 bg-white/50"
+                }`}
+                aria-label={`Aller à la photo ${index + 1}`}
+              />
+            ))}
+          </div>
+
           <div className="absolute -bottom-6 -right-4 hidden border border-gold bg-ink px-8 py-6 sm:block">
             <p className="font-display text-4xl text-gold">+250</p>
             <p className="mt-1 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
@@ -49,17 +119,17 @@ export function About() {
         <div>
           <p className="eyebrow">L'Académie</p>
           <h2 className="mt-5 text-4xl sm:text-5xl">
-            Une maison dédiée à la <span className="gold-text italic">précision</span>
+            Le travail de nos <span className="gold-text italic">apprenantes</span>
           </h2>
           <div className="gold-rule mt-7 max-w-[10rem]" />
           <p className="mt-8 leading-relaxed text-muted-foreground">
-            Fondée à Yaoundé, T.Maney Academy® est une école de mode spécialisée dans la
-            corsetterie et les pièces structurées. Nos MasterClass réunissent des promotions
-            volontairement réduites afin que chaque participante reçoive un accompagnement
-            individuel, du premier relevé de mesures jusqu'à la pièce finie.
+            Fondée à Yaoundé, T.Maney Academy® est une école de mode spécialisée dans la{" "}
+            <strong className="font-semibold text-foreground">Haute couture femme</strong>.{" "}
+            <strong className="font-semibold text-foreground">Nous formons les passionnées de couture en stylisme-modélisme</strong>.
           </p>
           <p className="mt-5 leading-relaxed text-muted-foreground">
-            Nos formations sont sanctionnées par un certificat de compétence, remis lors d'une
+            Nos MasterClass réunissent des promotions volontairement réduites afin que chaque participante reçoive un accompagnement
+            individuel, du premier relevé de mesures jusqu'à la pièce finie. Nos formations sont sanctionnées par un certificat de compétence, remis lors d'une
             cérémonie de fin de session.
           </p>
 

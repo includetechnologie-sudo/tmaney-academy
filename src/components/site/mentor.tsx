@@ -64,7 +64,7 @@ export function MeetYourMentor() {
 
             <div className="mt-10 flex flex-wrap gap-4">
               <div className="flex items-center gap-3 rounded-sm border border-gold/30 bg-card px-6 py-4">
-                <span className="font-display text-3xl text-gold">15+</span>
+                <span className="font-display text-3xl text-gold">7+</span>
                 <span className="text-xs uppercase leading-tight tracking-[0.2em] text-muted-foreground">
                   Années<br />d'expérience
                 </span>
