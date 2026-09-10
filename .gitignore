@@ -23,6 +23,9 @@ build
 *.swo
 *~
 
+# Configuration SFTP (contient des mots de passe)
+.vscode/sftp.json
+
 # OS
 .DS_Store
 Thumbs.db
