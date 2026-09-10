@@ -2,6 +2,7 @@ import { Monitor, BookOpen, Users, Award, X, MapPin, Phone, Calendar, Clock } fr
 import { useState, useEffect } from "react";
 import { Countdown } from "./countdown";
 import { Confetti } from "./confetti";
+import { GallerySlider } from "./gallery-slider";
 
 const p1 = { url: "/images/photo-p1-diplomee.jpg" };
 const p2 = { url: "/images/photo-p2-mannequin.jpg" };
@@ -327,49 +328,41 @@ const gallery = [
 ];
 
 export function Gallery() {
-  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<{ url: string; alt: string } | null>(null);
 
   return (
     <>
       <section id="galerie" className="border-t border-border py-16 sm:py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 sm:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
           <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {gallery.map((g) => (
-              <figure
-                key={g.alt}
-                className="group cursor-pointer overflow-hidden"
-                onClick={() => setLightbox(g)}
-              >
-                <img
-                  src={g.url}
-                  alt={g.alt}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ aspectRatio: "3 / 4" }}
-                />
-              </figure>
-            ))}
+          
+          <div className="mt-16">
+            <GallerySlider images={gallery} />
           </div>
+
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Glissez pour découvrir nos créations • Cliquez pour agrandir
+          </p>
         </div>
       </section>
 
-      {lightbox && (
+      {/* Lightbox pour agrandissement */}
+      {lightboxImage && (
         <div
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
-          onClick={() => setLightbox(null)}
+          onClick={() => setLightboxImage(null)}
         >
           <button
             type="button"
-            onClick={() => setLightbox(null)}
+            onClick={() => setLightboxImage(null)}
             className="absolute right-4 top-4 text-gold transition-colors hover:text-gold-soft sm:right-8 sm:top-8"
             aria-label="Fermer"
           >
             <X size={32} />
           </button>
           <img
-            src={lightbox.url}
-            alt={lightbox.alt}
+            src={lightboxImage.url}
+            alt={lightboxImage.alt}
             className="max-h-[90vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />

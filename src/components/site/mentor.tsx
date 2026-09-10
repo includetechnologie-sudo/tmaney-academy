@@ -2,8 +2,17 @@ export function MeetYourMentor() {
   return (
     <section id="mentor" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+        {/* Titre et eyebrow en premier sur mobile */}
+        <div className="text-center lg:hidden mb-10">
+          <p className="eyebrow">Votre formatrice</p>
+          <h2 className="mt-5 text-3xl font-semibold sm:text-4xl">
+            Meet your <span className="gold-text italic">Mentor</span>
+          </h2>
+          <div className="gold-rule mx-auto mt-7 max-w-[10rem]" />
+        </div>
+
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* Image Manuella */}
+          {/* Image Manuella - Order 2 mobile (après titre), Order 1 desktop */}
           <div className="order-2 lg:order-1">
             <div className="relative overflow-hidden">
               <img
@@ -17,15 +26,18 @@ export function MeetYourMentor() {
             </div>
           </div>
 
-          {/* Texte biographie */}
-          <div className="order-1 lg:order-2">
-            <p className="eyebrow">Votre formatrice</p>
-            <h2 className="mt-5 text-3xl font-semibold sm:text-4xl lg:text-5xl">
-              Meet your <span className="gold-text italic">Mentor</span>
-            </h2>
-            <div className="gold-rule mt-7 max-w-[10rem]" />
+          {/* Texte biographie - Order 3 mobile (après photo), Order 2 desktop */}
+          <div className="order-3 lg:order-2">
+            {/* Titre visible uniquement sur desktop */}
+            <div className="hidden lg:block">
+              <p className="eyebrow">Votre formatrice</p>
+              <h2 className="mt-5 text-3xl font-semibold sm:text-4xl lg:text-5xl">
+                Meet your <span className="gold-text italic">Mentor</span>
+              </h2>
+              <div className="gold-rule mt-7 max-w-[10rem]" />
+            </div>
             
-            <div className="mt-8 space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <div className="mt-8 space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base lg:mt-8">
               <p>
                 <strong className="font-semibold text-foreground">Mme Maney</strong> est une styliste, 
                 modéliste et formatrice d'exception spécialisée en Haute Couture femme.
