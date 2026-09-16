@@ -261,7 +261,7 @@ export function Programs() {
                 <MapPin className="mt-0.5 shrink-0 text-gold" size={18} />
                 <div>
                   <p className="font-semibold text-foreground">Localisation</p>
-                  <p className="text-muted-foreground">Descente éleveur, Ngousso (Yaoundé)</p>
+                  <p className="text-muted-foreground">Descente Chapelle Ngousso, Yaoundé</p>
                 </div>
               </div>
             </div>

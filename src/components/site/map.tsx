@@ -14,7 +14,7 @@ export function Map() {
           <h2 className="mt-5 text-4xl sm:text-5xl">Notre localisation</h2>
           <div className="gold-rule mx-auto mt-7 max-w-[10rem]" />
           <p className="mt-7 leading-relaxed text-muted-foreground">
-            T.Maney Academy est située à Yaoundé, Cameroun
+            T.Maney Academy est située à la Descente Chapelle Ngousso, Yaoundé
           </p>
         </div>
 
@@ -28,7 +28,7 @@ export function Map() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Localisation T.Maney Academy - Yaoundé, Cameroun"
+              title="Localisation T.Maney Academy - Descente Chapelle Ngousso, Yaoundé"
             />
           </div>
         </div>
@@ -40,9 +40,9 @@ export function Map() {
             <div>
               <h3 className="font-semibold text-foreground">Adresse</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Yaoundé
+                Descente Chapelle Ngousso
                 <br />
-                Cameroun
+                Yaoundé, Cameroun
               </p>
             </div>
           </div>

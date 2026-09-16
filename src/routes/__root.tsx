@@ -77,26 +77,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "T.Maney Academy — École de Mode Haute Couture à Yaoundé, Cameroun" },
+      { title: "T.Maney Academy — Centre de Formation Agréé en Haute Couture, Cameroun" },
       {
         name: "description",
         content:
-          "École de mode agréée par le MINEFOP à Yaoundé, Cameroun. Formations en haute couture, stylisme-modélisme et corsetterie, en ligne ou en présentiel. Certificat de compétence à la clé.",
+          "Centre de formation agréé MINEFOP à Yaoundé, Cameroun : école de mode en haute couture, stylisme-modélisme et corsetterie. Cours en ligne ou en présentiel.",
       },
       {
         name: "keywords",
         content:
-          "école de mode Yaoundé, école de mode Cameroun, haute couture, styliste modéliste, formation stylisme modélisme, corsetterie, MasterClass couture, T.Maney Academy, formation couture Cameroun, école de couture Afrique",
+          "T.Maney Academy, TManey Academy, T Maney Academy, Tmaney Academy, Tmaney, tmaneyacademy, école de mode Cameroun, école de mode Yaoundé, centre de formation agréé Cameroun, centre de formation agréé MINEFOP, centre de formation haute couture Cameroun, centre de formation stylisme modélisme Cameroun, centre de formation corsetterie Cameroun, styliste modéliste Cameroun, école de couture Cameroun, MasterClass couture, formation couture Cameroun, école de mode Afrique",
       },
       { name: "author", content: "T.Maney Academy" },
       {
         property: "og:title",
-        content: "T.Maney Academy — École de Mode Haute Couture à Yaoundé, Cameroun",
+        content: "T.Maney Academy — Centre de Formation Agréé en Haute Couture, Cameroun",
       },
       {
         property: "og:description",
         content:
-          "Centre de formation agréé par le MINEFOP. Formations en haute couture, stylisme-modélisme et corsetterie, en ligne ou en présentiel. Inscriptions ouvertes.",
+          "Centre de formation agréé par le MINEFOP à Yaoundé. École de mode en haute couture, stylisme-modélisme et corsetterie, en ligne ou en présentiel. Inscriptions ouvertes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -122,11 +122,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "T.Maney Academy",
+  alternateName: [
+    "TManey Academy",
+    "T Maney Academy",
+    "Tmaney Academy",
+    "T.maney academy",
+    "Tmaney",
+    "tmaneyacademy",
+  ],
+  description:
+    "Centre de formation agréé par le MINEFOP à Yaoundé, Cameroun, spécialisé en haute couture, stylisme-modélisme et corsetterie.",
+  url: "https://www.tmaneyacademy.com",
+  logo: "https://www.tmaneyacademy.com/images/logo.png",
+  image: "https://www.tmaneyacademy.com/images/logo.png",
+  telephone: "+237697216348",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Descente Chapelle Ngousso",
+    addressLocality: "Yaoundé",
+    addressCountry: "CM",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 3.901636,
+    longitude: 11.552714,
+  },
+  areaServed: "Cameroun",
+};
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body>
         {children}
