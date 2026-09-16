@@ -52,7 +52,7 @@ export function About() {
       <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2 lg:items-start">
         <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
           <p className="eyebrow">L'Académie</p>
-          <h2 className="mt-5 text-4xl sm:text-5xl">
+          <h2 className="mt-5 whitespace-nowrap text-2xl leading-tight sm:text-4xl lg:text-5xl">
             Le travail de <span className="gold-text italic">nos apprenantes</span>
           </h2>
           <div className="gold-rule mt-7 max-w-[10rem]" />
