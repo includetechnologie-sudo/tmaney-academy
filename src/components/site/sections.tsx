@@ -9,9 +9,29 @@ const p2 = { url: "/images/photo-p2-mannequin.jpg" };
 const p3 = { url: "/images/photo-p3-groupe.jpg" };
 const p4 = { url: "/images/photo-p4-placeholder.jpg" };
 
+const apprenantesWork = [
+  {
+    url: "/images/photo-p3-mannequin.jpg",
+    alt: "Travail d'une apprenante sur mannequin de couture",
+  },
+  { url: "/images/photo-p4-mannequin.jpg", alt: "Réalisation d'une apprenante de T.Maney Academy" },
+  {
+    url: "/images/photo-p5-mannequin.jpg",
+    alt: "Création haute couture réalisée par une apprenante",
+  },
+  { url: "/images/photo-p6-mannequin.jpg", alt: "Pièce structurée réalisée par une apprenante" },
+  {
+    url: "/images/photo-p7-mannequin.jpg",
+    alt: "Finitions haute couture par une apprenante de l'académie",
+  },
+];
+
 const heroImages = [
   { url: "/images/hero-1-diplome.jpg", alt: "Diplômée présentant son certificat de compétence" },
-  { url: "/images/hero-2-atelier.jpg", alt: "Atelier T.Maney Academy avec machines professionnelles" },
+  {
+    url: "/images/hero-2-atelier.jpg",
+    alt: "Atelier T.Maney Academy avec machines professionnelles",
+  },
   { url: "/images/hero-3-robe-blanche.jpg", alt: "Robe de mariée structurée haute couture" },
   { url: "/images/hero-4-robe-rose.jpg", alt: "Création en tulle rose sur podium" },
 ];
@@ -31,13 +51,7 @@ export function About() {
     <section id="academie" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2">
         <div className="relative">
-          <img
-            src={p2.url}
-            alt="Formatrice de T.Maney Academy présentant un corset en pagne"
-            className="w-full object-cover"
-            style={{ aspectRatio: "4 / 5" }}
-            loading="lazy"
-          />
+          <GallerySlider images={apprenantesWork} />
           <div className="absolute -bottom-6 -right-4 hidden border border-gold bg-ink px-8 py-6 sm:block">
             <p className="font-display text-4xl text-gold">+250</p>
             <p className="mt-1 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
@@ -49,41 +63,45 @@ export function About() {
         <div>
           <p className="eyebrow">L'Académie</p>
           <h2 className="mt-5 text-4xl sm:text-5xl">
-            Une maison dédiée à la <span className="gold-text italic">précision</span>
+            Le travail de <span className="gold-text italic">nos apprenantes</span>
           </h2>
           <div className="gold-rule mt-7 max-w-[10rem]" />
           <p className="mt-8 leading-relaxed text-muted-foreground">
-            Fondée à Yaoundé, T.Maney Academy® est une école de mode spécialisée dans la
-            corsetterie et les pièces structurées. Nos MasterClass réunissent des promotions
-            volontairement réduites afin que chaque participante reçoive un accompagnement
-            individuel, du premier relevé de mesures jusqu'à la pièce finie.
+            Fondée à Yaoundé,{" "}
+            <strong className="font-semibold text-foreground">T.Maney Academy®</strong> est une
+            école de mode spécialisée dans la Haute couture femme.
           </p>
           <p className="mt-5 leading-relaxed text-muted-foreground">
-            Nos formations sont sanctionnées par un certificat de compétence, remis lors d'une
-            cérémonie de fin de session.
+            Nous formons les passionnées de couture en stylisme-modélisme.
+          </p>
+          <p className="mt-5 leading-relaxed text-muted-foreground">
+            Nos MasterClass réunissent des promotions volontairement réduites afin que chaque
+            participante reçoive un accompagnement individuel, du premier relevé de mesures jusqu'à
+            la pièce finie. Nos formations sont sanctionnées par un certificat de compétence, remis
+            lors d'une cérémonie de fin de session.
           </p>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {[
-              { 
-                icon: Monitor, 
-                t: "100% En Ligne", 
-                d: "Formez-vous depuis le confort de votre maison où que vous soyez dans le monde." 
+              {
+                icon: Monitor,
+                t: "100% En Ligne",
+                d: "Formez-vous depuis le confort de votre maison où que vous soyez dans le monde.",
               },
-              { 
-                icon: BookOpen, 
-                t: "Pédagogie Pas-à-Pas", 
-                d: "Les techniques les plus complexes expliquées étape par étape." 
+              {
+                icon: BookOpen,
+                t: "Pédagogie Pas-à-Pas",
+                d: "Les techniques les plus complexes expliquées étape par étape.",
               },
-              { 
-                icon: Users, 
-                t: "Suivi et accompagnement", 
-                d: "Un groupe privé réservé aux apprenant(e)s pour poser vos questions." 
+              {
+                icon: Users,
+                t: "Suivi et accompagnement",
+                d: "Un groupe privé réservé aux apprenant(e)s pour poser vos questions.",
               },
-              { 
-                icon: Award, 
-                t: "Certification", 
-                d: "Certificat de compétence délivrée après la validation de vos travaux." 
+              {
+                icon: Award,
+                t: "Certification",
+                d: "Certificat de compétence délivrée après la validation de vos travaux.",
               },
             ].map((f) => (
               <div key={f.t} className="border border-border bg-card p-6">
@@ -177,7 +195,7 @@ export function Programs() {
   return (
     <section id="formations" className="border-t border-border py-16 sm:py-24 lg:py-32">
       <Confetti show={showConfetti} />
-      
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <SectionTitle eyebrow="Nos formations" title="Programmes d'excellence" />
 
@@ -187,7 +205,7 @@ export function Programs() {
             <h3 className="text-center text-2xl font-semibold sm:text-3xl">
               Formez-vous & Devenez <span className="gold-text italic">Styliste Modéliste</span>
             </h3>
-            
+
             <div className="mt-6 space-y-3 text-center text-sm leading-relaxed text-muted-foreground sm:text-base">
               <p className="font-semibold text-foreground">
                 Modules : Haute Couture sur mesure • Prêt-à-porter • Fashion Entrepreneuriat
@@ -211,7 +229,7 @@ export function Programs() {
                   <p className="text-muted-foreground">05 Octobre 2026</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <Clock className="mt-0.5 shrink-0 text-gold" size={18} />
                 <div>
@@ -219,14 +237,14 @@ export function Programs() {
                   <p className="text-muted-foreground">09h00 à 16h00 (Lundi au Vendredi)</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <Phone className="mt-0.5 shrink-0 text-gold" size={18} />
                 <div>
                   <p className="font-semibold text-foreground">WhatsApp</p>
-                  <a 
-                    href="https://wa.me/237697216348" 
-                    target="_blank" 
+                  <a
+                    href="https://wa.me/237697216348"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-gold hover:underline"
                   >
@@ -234,7 +252,7 @@ export function Programs() {
                   </a>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 shrink-0 text-gold" size={18} />
                 <div>
@@ -259,8 +277,8 @@ export function Programs() {
             <article
               key={p.name}
               className={`flex flex-col rounded-lg border p-6 transition-all sm:p-8 ${
-                p.featured 
-                  ? "border-gold bg-card shadow-[0_0_30px_-10px_var(--gold)]" 
+                p.featured
+                  ? "border-gold bg-card shadow-[0_0_30px_-10px_var(--gold)]"
                   : "border-border bg-card/60 hover:border-gold/50 hover:shadow-lg"
               }`}
             >
@@ -269,7 +287,7 @@ export function Programs() {
                   🔥 Populaire
                 </span>
               )}
-              
+
               <h3 className="text-2xl font-semibold sm:text-3xl">{p.name}</h3>
               <p className="mt-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 {p.duration}
@@ -335,7 +353,7 @@ export function Gallery() {
       <section id="galerie" className="border-t border-border py-16 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
           <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
-          
+
           <div className="mt-16">
             <GallerySlider images={gallery} />
           </div>
@@ -386,8 +404,7 @@ const testimonials = [
     role: "Créatrice, Douala",
   },
   {
-    quote:
-      "J'ai reçu mon certificat et surtout la confiance nécessaire pour ouvrir mon atelier.",
+    quote: "J'ai reçu mon certificat et surtout la confiance nécessaire pour ouvrir mon atelier.",
     name: "Aïcha M.",
     role: "Fondatrice d'atelier",
   },

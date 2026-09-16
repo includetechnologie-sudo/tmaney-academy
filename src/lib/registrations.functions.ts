@@ -7,17 +7,23 @@ const registrationSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   phone: z.string().trim().min(6).max(30),
-  city: z.string().trim().max(120).optional().default(""),
   country: z.string().trim().max(120).optional().default(""),
   formation: z.string().trim().min(2).max(160),
-  session: z.string().trim().max(160).optional().default(""),
-  level: z.string().trim().max(80).optional().default(""),
-  message: z.string().trim().max(1000).optional().default(""),
 });
 
 export type RegistrationInput = z.infer<typeof registrationSchema>;
 
+const FORMATION_PRICES_XAF: Record<string, number> = {
+  Débutant: 300000,
+  Intermédiaire: 400000,
+  Perfectionnement: 500000,
+};
+
 export const AMOUNT_XAF = 300000;
+
+function amountFor(formation: string) {
+  return FORMATION_PRICES_XAF[formation] ?? AMOUNT_XAF;
+}
 
 function buildWhatsappText(data: RegistrationInput, ref: string) {
   return [
@@ -25,12 +31,9 @@ function buildWhatsappText(data: RegistrationInput, ref: string) {
     `Nom : ${data.fullName}`,
     `Email : ${data.email}`,
     `Téléphone : ${data.phone}`,
-    `Ville / Pays : ${[data.city, data.country].filter(Boolean).join(", ") || "—"}`,
+    `Pays : ${data.country || "—"}`,
     `Formation : ${data.formation}`,
-    `Session : ${data.session || "—"}`,
-    `Niveau : ${data.level || "—"}`,
-    `Message : ${data.message || "—"}`,
-    `Montant : ${AMOUNT_XAF.toLocaleString("fr-FR")} FCFA`,
+    `Montant : ${amountFor(data.formation).toLocaleString("fr-FR")} FCFA`,
     `Référence : ${ref}`,
   ].join("\n");
 }
@@ -45,19 +48,17 @@ export const createRegistration = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
+    const amount = amountFor(data.formation);
+
     const { data: row, error } = await supabaseAdmin
       .from("registrations")
       .insert({
         full_name: data.fullName,
         email: data.email,
         phone: data.phone,
-        city: data.city || null,
         country: data.country || null,
         formation: data.formation,
-        session_choice: data.session || null,
-        level: data.level || null,
-        message: data.message || null,
-        amount: AMOUNT_XAF,
+        amount,
       })
       .select("id")
       .single();
@@ -113,7 +114,7 @@ export const createRegistration = createServerFn({ method: "POST" })
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            transaction_amount: AMOUNT_XAF,
+            transaction_amount: amount,
             transaction_currency: "XAF",
             transaction_reason: `Inscription ${data.formation} — T.Maney Academy`,
             app_transaction_ref: row.id,

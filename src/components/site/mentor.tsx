@@ -36,43 +36,47 @@ export function MeetYourMentor() {
               </h2>
               <div className="gold-rule mt-7 max-w-[10rem]" />
             </div>
-            
+
             <div className="mt-8 space-y-5 text-sm leading-relaxed text-muted-foreground sm:text-base lg:mt-8">
               <p>
-                <strong className="font-semibold text-foreground">Mme Maney</strong> est une styliste, 
-                modéliste et formatrice d'exception spécialisée en Haute Couture femme.
+                <strong className="font-semibold text-foreground">Mme Maney</strong> est une
+                styliste, modéliste et formatrice d'exception spécialisée en Haute Couture femme.
               </p>
-              
+
               <p>
-                Fort d'une solide expérience sur le terrain et de perfectionnements continus auprès 
-                des plus grands ateliers internationaux, elle a développé une méthode d'enseignement 
+                Fort d'une solide expérience sur le terrain et de perfectionnements continus auprès
+                des plus grands ateliers internationaux, elle a développé une méthode d'enseignement
                 rigoureuse axée sur la précision du patronage et les finitions d'exception.
               </p>
-              
+
               <p>
-                Ses techniques de confection uniques ont déjà permis à de nombreuses créatrices et 
-                couturières à travers l'Afrique et la diaspora de perfectionner leur art et de valoriser 
-                leur savoir-faire.
+                Ses techniques de confection uniques ont déjà permis à de nombreuses créatrices et
+                couturières à travers l'Afrique et la diaspora de perfectionner leur art et de
+                valoriser leur savoir-faire.
               </p>
-              
+
               <p>
-                Sa mission est de transmettre l'exigence de la Haute Couture et d'offrir aux passionnées 
-                de mode les compétences techniques et entrepreneuriales nécessaires pour bâtir des ateliers 
-                prospères et reconnus.
+                Sa mission est de transmettre l'exigence de la Haute Couture et d'offrir aux
+                passionnées de mode les compétences techniques et entrepreneuriales nécessaires pour
+                bâtir des ateliers prospères et reconnus.
               </p>
             </div>
 
             <div className="mt-10 flex flex-wrap gap-4">
               <div className="flex items-center gap-3 rounded-sm border border-gold/30 bg-card px-6 py-4">
-                <span className="font-display text-3xl text-gold">15+</span>
+                <span className="font-display text-3xl text-gold">7+</span>
                 <span className="text-xs uppercase leading-tight tracking-[0.2em] text-muted-foreground">
-                  Années<br />d'expérience
+                  Années
+                  <br />
+                  d'expérience
                 </span>
               </div>
               <div className="flex items-center gap-3 rounded-sm border border-gold/30 bg-card px-6 py-4">
                 <span className="font-display text-3xl text-gold">500+</span>
                 <span className="text-xs uppercase leading-tight tracking-[0.2em] text-muted-foreground">
-                  Élèves<br />formées
+                  Élèves
+                  <br />
+                  formées
                 </span>
               </div>
             </div>

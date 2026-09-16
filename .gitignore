@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+bun.lockb
+
+# Build outputs
+dist
+.output
+*.zip
+
+.vinxi
+.vercel
+.netlify
+build
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Configuration SFTP (contient des mots de passe)
+.vscode/sftp.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache
+.parcel-cache
+.turbo

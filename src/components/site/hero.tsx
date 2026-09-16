@@ -27,7 +27,9 @@ const slides = [
 
 export function Hero() {
   const [index, setIndex] = useState(0);
-  const [swipeParticles, setSwipeParticles] = useState<Array<{ x: number; y: number; id: number }>>([]);
+  const [swipeParticles, setSwipeParticles] = useState<Array<{ x: number; y: number; id: number }>>(
+    [],
+  );
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const particleIdCounter = useRef(0);
@@ -46,7 +48,7 @@ export function Hero() {
     const touch = e.touches[0];
     const deltaX = Math.abs(touch.clientX - touchStartX.current);
     const deltaY = Math.abs(touch.clientY - touchStartY.current);
-    
+
     // Détection swipe horizontal
     if (deltaX > 10 && deltaX > deltaY) {
       // Créer des particules au toucher
@@ -55,11 +57,11 @@ export function Hero() {
         y: touch.clientY,
         id: particleIdCounter.current++,
       };
-      setSwipeParticles(prev => [...prev, newParticle]);
-      
+      setSwipeParticles((prev) => [...prev, newParticle]);
+
       // Supprimer après animation
       setTimeout(() => {
-        setSwipeParticles(prev => prev.filter(p => p.id !== newParticle.id));
+        setSwipeParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
       }, 1500);
     }
   };
@@ -67,7 +69,7 @@ export function Hero() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const touchEndX = e.changedTouches[0].clientX;
     const deltaX = touchEndX - touchStartX.current;
-    
+
     if (Math.abs(deltaX) > 50) {
       if (deltaX > 0) {
         // Swipe droite - image précédente
@@ -80,8 +82,8 @@ export function Hero() {
   };
 
   return (
-    <section 
-      id="accueil" 
+    <section
+      id="accueil"
       className="relative flex min-h-screen items-center overflow-hidden touch-pan-y"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -96,32 +98,35 @@ export function Hero() {
           style={{ opacity: i === index ? 1 : 0, objectPosition: s.position }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/85" />
+      <div className="absolute inset-0 bg-gradient-to-b from-neutral-200/70 via-neutral-300/55 to-neutral-500/70" />
       <GoldParticles />
       <MagicSwipeParticles particles={swipeParticles} />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-32 sm:pb-24 md:px-8">
         <div className="max-w-3xl fade-up">
-          <p className="eyebrow">Yaoundé · Cameroun</p>
+          <p className="eyebrow">Centre de formation agréé par le MINEFOP</p>
           <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
             Découvrez les secrets de la <span className="gold-text italic">haute couture</span>.
           </h1>
           <div className="gold-rule mt-8 max-w-xs" />
           <p className="mt-8 max-w-xl text-sm font-medium leading-relaxed text-foreground sm:text-base md:text-lg">
-            T.Maney Academy forme les couturières et créatrices d'Afrique aux techniques de la
-            corsetterie haut de gamme : patronage sur mesure, structure, baleinage et finitions
-            couture. Une pédagogie intense, certifiante, et résolument premium.
+            T.Maney Academy est un centre de formation de référence dédié aux métiers de la mode, du
+            stylisme et du modélisme.
+          </p>
+          <p className="mt-4 max-w-xl text-sm font-medium leading-relaxed text-foreground sm:text-base md:text-lg">
+            Nous formons les créateurs, stylistes et modélistes de demain en leur donnant les outils
+            pour transformer chaque idée en une œuvre d'art.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
             <a
-              href="#formations"
+              href="/formations-en-ligne"
               className="bg-gold px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-90 sm:px-9 sm:py-4"
             >
               Nos formations en ligne
             </a>
             <a
               href="#formations"
-              className="border border-gold/60 px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-gold transition-colors hover:border-gold sm:px-9 sm:py-4"
+              className="border border-gold bg-background/80 px-7 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] text-foreground backdrop-blur-sm transition-colors hover:bg-gold hover:text-primary-foreground sm:px-9 sm:py-4"
             >
               Nos formations en présentiel
             </a>

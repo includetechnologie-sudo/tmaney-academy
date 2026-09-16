@@ -12,17 +12,25 @@ import { TestimonialsVideo } from "@/components/site/testimonials-video";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "T.Maney Academy — MasterClass corsetterie à Yaoundé" },
+      { title: "T.Maney Academy — École de Mode Haute Couture à Yaoundé, Cameroun" },
       {
         name: "description",
         content:
-          "Académie de mode spécialisée en corsetterie de luxe à Yaoundé : MasterClass certifiante de 10 jours, patronage sur mesure, baleinage et finitions couture. Inscriptions ouvertes.",
+          "École de mode agréée par le MINEFOP à Yaoundé, Cameroun. Formations en haute couture, stylisme-modélisme et corsetterie, en ligne ou en présentiel. Certificat de compétence à la clé.",
       },
-      { property: "og:title", content: "T.Maney Academy — MasterClass corsetterie à Yaoundé" },
+      {
+        name: "keywords",
+        content:
+          "école de mode Yaoundé, école de mode Cameroun, haute couture, styliste modéliste, formation stylisme modélisme, corsetterie, MasterClass couture, T.Maney Academy, formation couture Cameroun, école de couture Afrique",
+      },
+      {
+        property: "og:title",
+        content: "T.Maney Academy — École de Mode Haute Couture à Yaoundé, Cameroun",
+      },
       {
         property: "og:description",
         content:
-          "MasterClass certifiante en corsetterie haut de gamme. Promotions réduites, certificat de compétence, inscription en ligne.",
+          "Centre de formation agréé par le MINEFOP. Formations en haute couture, stylisme-modélisme et corsetterie, en ligne ou en présentiel. Inscriptions ouvertes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

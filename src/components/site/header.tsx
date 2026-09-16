@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { Logo } from "./brand";
 
 const links = [
-  { href: "#academie", label: "L'Académie" },
-  { href: "#formations", label: "Formations" },
-  { href: "#galerie", label: "Galerie" },
-  { href: "#temoignages", label: "Témoignages" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#academie", label: "L'Académie" },
+  { href: "/#formations", label: "Formations" },
+  { href: "/#galerie", label: "Galerie" },
+  { href: "/#temoignages", label: "Témoignages" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -29,7 +29,7 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
-        <a href="#accueil" className="flex items-center" aria-label="T.Maney Academy — accueil">
+        <a href="/" className="flex items-center" aria-label="T.Maney Academy — accueil">
           <Logo className={scrolled ? "h-8 sm:h-9" : "h-9 sm:h-11"} />
         </a>
 
@@ -44,7 +44,7 @@ export function Header() {
             </a>
           ))}
           <a
-            href="#inscription"
+            href="/#inscription"
             className="border border-gold px-6 py-3 text-xs uppercase tracking-[0.22em] text-gold transition-colors hover:bg-gold hover:text-primary-foreground"
           >
             S'inscrire
@@ -75,7 +75,7 @@ export function Header() {
               </a>
             ))}
             <a
-              href="#inscription"
+              href="/#inscription"
               onClick={() => setOpen(false)}
               className="border border-gold px-6 py-3 text-center text-xs uppercase tracking-[0.24em] text-gold"
             >

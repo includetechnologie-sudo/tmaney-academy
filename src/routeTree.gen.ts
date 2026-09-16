@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FormationsEnLigneRouteImport } from './routes/formations-en-ligne'
 import { Route as ApiPublicMycoolpayWebhookRouteImport } from './routes/api/public/mycoolpay-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormationsEnLigneRoute = FormationsEnLigneRouteImport.update({
+  id: '/formations-en-ligne',
+  path: '/formations-en-ligne',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicMycoolpayWebhookRoute =
@@ -26,27 +32,32 @@ const ApiPublicMycoolpayWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/formations-en-ligne': typeof FormationsEnLigneRoute
   '/api/public/mycoolpay-webhook': typeof ApiPublicMycoolpayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/formations-en-ligne': typeof FormationsEnLigneRoute
   '/api/public/mycoolpay-webhook': typeof ApiPublicMycoolpayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/formations-en-ligne': typeof FormationsEnLigneRoute
   '/api/public/mycoolpay-webhook': typeof ApiPublicMycoolpayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/mycoolpay-webhook'
+  fullPaths: '/' | '/formations-en-ligne' | '/api/public/mycoolpay-webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/mycoolpay-webhook'
-  id: '__root__' | '/' | '/api/public/mycoolpay-webhook'
+  to: '/' | '/formations-en-ligne' | '/api/public/mycoolpay-webhook'
+  id:
+    '__root__' | '/' | '/formations-en-ligne' | '/api/public/mycoolpay-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FormationsEnLigneRoute: typeof FormationsEnLigneRoute
   ApiPublicMycoolpayWebhookRoute: typeof ApiPublicMycoolpayWebhookRoute
 }
 
@@ -57,6 +68,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formations-en-ligne': {
+      id: '/formations-en-ligne'
+      path: '/formations-en-ligne'
+      fullPath: '/formations-en-ligne'
+      preLoaderRoute: typeof FormationsEnLigneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/mycoolpay-webhook': {
@@ -71,6 +89,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FormationsEnLigneRoute: FormationsEnLigneRoute,
   ApiPublicMycoolpayWebhookRoute: ApiPublicMycoolpayWebhookRoute,
 }
 export const routeTree = rootRouteImport

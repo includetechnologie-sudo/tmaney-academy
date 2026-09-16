@@ -11,18 +11,45 @@ export function Footer() {
             <Logo className="h-12" />
           </div>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Centre de formation professionnelle agréé par le ministère de l'Emploi et de la Formation professionnelle du Cameroun. L'académie est dédiée à l'apprentissage et au perfectionnement du métier de styliste-modéliste.
+            Centre de formation professionnelle agréé par le ministère de l'Emploi et de la
+            Formation professionnelle du Cameroun. L'académie est dédiée à l'apprentissage et au
+            perfectionnement du métier de styliste-modéliste.
           </p>
         </div>
 
         <div>
           <h3 className="eyebrow">Navigation</h3>
           <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
-            <li><a className="hover:text-gold" href="#academie">L'Académie</a></li>
-            <li><a className="hover:text-gold" href="#formations">Formations</a></li>
-            <li><a className="hover:text-gold" href="#galerie">Galerie</a></li>
-            <li><a className="hover:text-gold" href="#temoignages">Témoignages</a></li>
-            <li><a className="hover:text-gold" href="#inscription">Inscription</a></li>
+            <li>
+              <a className="hover:text-gold" href="/#academie">
+                L'Académie
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gold" href="/#formations">
+                Formations
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gold" href="/formations-en-ligne">
+                Formations en ligne
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gold" href="/#galerie">
+                Galerie
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gold" href="/#temoignages">
+                Témoignages
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gold" href="/#inscription">
+                Inscription
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -35,7 +62,9 @@ export function Footer() {
             </li>
             <li className="flex items-start gap-3">
               <Phone size={16} className="mt-0.5 text-gold" />
-              <a className="hover:text-gold" href="tel:+237697216348">+237 697 216 348</a>
+              <a className="hover:text-gold" href="tel:+237697216348">
+                +237 697 216 348
+              </a>
             </li>
             <li className="flex items-start gap-3">
               <Mail size={16} className="mt-0.5 text-gold" />

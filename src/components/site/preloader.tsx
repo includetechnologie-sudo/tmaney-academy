@@ -27,7 +27,9 @@ export function Preloader() {
         <div className="flex items-center justify-center">
           <Logo className="h-16 sm:h-20" />
         </div>
-        <p className="eyebrow text-center">L'art de la haute couture</p>
+        <p className="text-center text-[0.7rem] italic uppercase tracking-[0.42em] text-foreground">
+          L'art de la haute couture
+        </p>
         <div className="relative h-px w-48 overflow-hidden bg-border">
           <span
             className="absolute inset-y-0 left-0 bg-gold"
