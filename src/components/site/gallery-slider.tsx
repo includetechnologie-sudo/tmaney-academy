@@ -47,6 +47,14 @@ export function GallerySlider({ images }: { images: GalleryImage[] }) {
     audioRef.current = { play: playMagicSound } as any;
   }, []);
 
+  // Défilement automatique en fondu lent, comme le hero
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5500);
+    return () => window.clearInterval(id);
+  }, [images.length]);
+
   const goToNext = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -133,9 +141,9 @@ export function GallerySlider({ images }: { images: GalleryImage[] }) {
               key={img.url}
               src={img.url}
               alt={img.alt}
-              className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
-                i === currentIndex 
-                  ? "opacity-100 scale-100" 
+              className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1400ms] ease-in-out ${
+                i === currentIndex
+                  ? "opacity-100 scale-100"
                   : "opacity-0 scale-105"
               } ${
                 isTransitioning ? "blur-sm" : "blur-0"

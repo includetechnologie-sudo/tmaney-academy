@@ -104,7 +104,9 @@ export function Hero() {
 
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-32 sm:pb-24 md:px-8">
         <div className="max-w-3xl fade-up">
-          <p className="eyebrow">Centre de formation agréé par le MINEFOP</p>
+          <p className="eyebrow !text-foreground text-sm sm:text-base">
+            Centre de formation agréé par le MINEFOP
+          </p>
           <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
             Découvrez les secrets de la <span className="gold-text italic">haute couture</span>.
           </h1>

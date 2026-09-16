@@ -49,8 +49,16 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
 export function About() {
   return (
     <section id="academie" className="border-t border-border py-16 sm:py-24 lg:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2">
-        <div className="relative">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:gap-14 sm:px-8 lg:grid-cols-2 lg:items-start">
+        <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
+          <p className="eyebrow">L'Académie</p>
+          <h2 className="mt-5 text-4xl sm:text-5xl">
+            Le travail de <span className="gold-text italic">nos apprenantes</span>
+          </h2>
+          <div className="gold-rule mt-7 max-w-[10rem]" />
+        </div>
+
+        <div className="relative order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:row-span-2">
           <GallerySlider images={apprenantesWork} />
           <div className="absolute -bottom-6 -right-4 hidden border border-gold bg-ink px-8 py-6 sm:block">
             <p className="font-display text-4xl text-gold">+250</p>
@@ -60,13 +68,8 @@ export function About() {
           </div>
         </div>
 
-        <div>
-          <p className="eyebrow">L'Académie</p>
-          <h2 className="mt-5 text-4xl sm:text-5xl">
-            Le travail de <span className="gold-text italic">nos apprenantes</span>
-          </h2>
-          <div className="gold-rule mt-7 max-w-[10rem]" />
-          <p className="mt-8 leading-relaxed text-muted-foreground">
+        <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2">
+          <p className="leading-relaxed text-muted-foreground">
             Fondée à Yaoundé,{" "}
             <strong className="font-semibold text-foreground">T.Maney Academy®</strong> est une
             école de mode spécialisée dans la Haute couture femme.

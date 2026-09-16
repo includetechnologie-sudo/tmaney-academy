@@ -10,7 +10,10 @@ export function Footer() {
           <div className="inline-flex items-center justify-center">
             <Logo className="h-12" />
           </div>
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-md text-sm font-bold leading-relaxed text-foreground">
+            Agrément du MINEFOP : ARRÊTÉ N°000071/MINEFOP/SG/DFOP/SDGSF/CSACD/CBC DU 05 MARS 2024
+          </p>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
             Centre de formation professionnelle agréé par le ministère de l'Emploi et de la
             Formation professionnelle du Cameroun. L'académie est dédiée à l'apprentissage et au
             perfectionnement du métier de styliste-modéliste.
