@@ -6,7 +6,6 @@ bun.lockb
 dist
 .output
 *.zip
-
 .vinxi
 .vercel
 .netlify

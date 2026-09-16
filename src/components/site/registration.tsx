@@ -1,6 +1,7 @@
 import { Loader2, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
+import { COUNTRIES } from "@/lib/dial-codes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 const FORMATION_PRICES: Record<string, string> = {
@@ -16,6 +17,9 @@ const label = "mb-2 block text-[0.65rem] uppercase tracking-[0.22em] text-muted-
 
 export function Registration() {
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
+  const [countryIso2, setCountryIso2] = useState("CM");
+
+  const country = COUNTRIES.find((c) => c.iso2 === countryIso2) ?? COUNTRIES[0]!;
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,16 +27,16 @@ export function Registration() {
     const fd = new FormData(e.currentTarget);
     const fullName = String(fd.get("fullName") ?? "");
     const email = String(fd.get("email") ?? "");
-    const phone = String(fd.get("phone") ?? "");
-    const country = String(fd.get("country") ?? "");
+    const localPhone = String(fd.get("phone") ?? "");
     const formation = String(fd.get("formation") ?? "");
+    const phone = `${country.dialCode} ${localPhone}`;
 
     const text = [
       "Nouvelle inscription — T.Maney Academy (présentiel)",
       `Nom : ${fullName}`,
       `Email : ${email}`,
       `Téléphone : ${phone}`,
-      `Pays : ${country || "—"}`,
+      `Pays : ${country.flag} ${country.name}`,
       `Formation : ${formation}`,
       `Montant : ${FORMATION_PRICES[formation] ?? "—"}`,
     ].join("\n");
@@ -103,29 +107,41 @@ export function Registration() {
               />
             </div>
             <div>
+              <label className={label} htmlFor="country">
+                Pays *
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                className={field}
+                value={countryIso2}
+                onChange={(e) => setCountryIso2(e.target.value)}
+              >
+                {COUNTRIES.map((c) => (
+                  <option key={c.iso2} value={c.iso2}>
+                    {c.flag} {c.name} ({c.dialCode})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label className={label} htmlFor="phone">
                 Téléphone / WhatsApp *
               </label>
-              <input
-                id="phone"
-                name="phone"
-                required
-                maxLength={30}
-                className={field}
-                placeholder="+237 6.. .. .. .."
-              />
-            </div>
-            <div>
-              <label className={label} htmlFor="country">
-                Pays
-              </label>
-              <input
-                id="country"
-                name="country"
-                maxLength={120}
-                className={field}
-                placeholder="Cameroun"
-              />
+              <div className="flex">
+                <span className="flex items-center border border-r-0 border-input bg-transparent px-4 text-sm text-muted-foreground">
+                  {country.dialCode}
+                </span>
+                <input
+                  id="phone"
+                  name="phone"
+                  required
+                  maxLength={30}
+                  className={`${field} border-l-0`}
+                  placeholder="6.. .. .. .."
+                />
+              </div>
             </div>
             <div className="sm:col-span-2">
               <label className={label} htmlFor="formation">
