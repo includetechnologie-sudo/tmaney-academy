@@ -156,6 +156,11 @@ const organizationSchema = {
     longitude: 11.552714,
   },
   areaServed: "Cameroun",
+  sameAs: [
+    "https://www.facebook.com/tmaneyacademy/",
+    "https://www.instagram.com/tmaney_academy/",
+    "https://www.tiktok.com/@t.maney.academy",
+  ],
 };
 
 function RootShell({ children }: { children: ReactNode }) {
