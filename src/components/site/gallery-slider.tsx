@@ -7,7 +7,13 @@ interface GalleryImage {
   alt: string;
 }
 
-export function GallerySlider({ images }: { images: GalleryImage[] }) {
+export function GallerySlider({
+  images,
+  onImageClick,
+}: {
+  images: GalleryImage[];
+  onImageClick?: (image: GalleryImage) => void;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [swipeParticles, setSwipeParticles] = useState<Array<{ x: number; y: number; id: number }>>([]);
@@ -144,11 +150,12 @@ export function GallerySlider({ images }: { images: GalleryImage[] }) {
               className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1400ms] ease-in-out ${
                 i === currentIndex
                   ? "opacity-100 scale-100"
-                  : "opacity-0 scale-105"
+                  : "opacity-0 scale-105 pointer-events-none"
               } ${
                 isTransitioning ? "blur-sm" : "blur-0"
-              }`}
+              } ${onImageClick ? "cursor-pointer" : ""}`}
               loading="lazy"
+              onClick={i === currentIndex ? () => onImageClick?.(img) : undefined}
             />
           ))}
         </div>

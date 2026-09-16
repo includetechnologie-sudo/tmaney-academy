@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Countdown } from "./countdown";
 import { Confetti } from "./confetti";
 import { GallerySlider } from "./gallery-slider";
+import { GoldParticles } from "./brand";
 
 const p1 = { url: "/images/photo-p1-diplomee.jpg" };
 const p2 = { url: "/images/photo-p2-mannequin.jpg" };
@@ -358,7 +359,7 @@ export function Gallery() {
           <SectionTitle eyebrow="Galerie" title="Les coulisses de l'académie" />
 
           <div className="mt-16">
-            <GallerySlider images={gallery} />
+            <GallerySlider images={gallery} onImageClick={setLightboxImage} />
           </div>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
@@ -373,6 +374,7 @@ export function Gallery() {
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
           onClick={() => setLightboxImage(null)}
         >
+          <GoldParticles />
           <button
             type="button"
             onClick={() => setLightboxImage(null)}
@@ -384,7 +386,7 @@ export function Gallery() {
           <img
             src={lightboxImage.url}
             alt={lightboxImage.alt}
-            className="max-h-[90vh] max-w-[90vw] object-contain"
+            className="relative max-h-[90vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
