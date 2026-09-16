@@ -77,6 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        name: "google-site-verification",
+        content: "bCYwkmhiZbVonqespFioTNgldvj6o_Opj1FJObJyo6U",
+      },
       { title: "T.Maney Academy — Centre de Formation Agréé en Haute Couture, Cameroun" },
       {
         name: "description",
