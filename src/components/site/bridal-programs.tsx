@@ -27,9 +27,14 @@ const modules: BridalProgram[] = [
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
     points: [
-      "Bases de la robe de mariée",
-      "Choix des tissus et structure",
-      "Patronage adapté au bridal",
+      "Robe corset avec fermeture invisible",
+      "Ingénierie du corset de mariée",
+      "Laçage interne",
+      "Illusion peau nue",
+      "Travail des dentelles perlées",
+      "Surjupe & traîne amovible transparente",
+      "Coupe sirène structurée",
+      "Finition haute couture",
     ],
   },
   {
@@ -38,9 +43,13 @@ const modules: BridalProgram[] = [
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
     points: [
-      "Montage de la robe structurée",
-      "Techniques de doublure et jupon",
-      "Finitions haut de gamme",
+      "Robe de mariée sans couture apparente",
+      "Corset transparent spécial mariée",
+      "Jupe sirène en tulle",
+      "Choix & manipulation des matières",
+      "Techniques de superposition",
+      "Finition haute couture",
+      "Reconstitution de motifs",
     ],
   },
   {
@@ -48,7 +57,15 @@ const modules: BridalProgram[] = [
     title: "Module 3 : Bridal 3",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
-    points: ["Broderies et embellissements", "Traîne et voile", "Essayage et retouches finales"],
+    points: [
+      "Robe princesse volumineuse en transparence",
+      "Corset transparent à bonnet",
+      "Laçage vintage",
+      "Encolure bardot longue manche",
+      "Optimisation & calcul de métrage",
+      "Techniques d'embellissement",
+      "Finition haute couture",
+    ],
   },
 ];
 
