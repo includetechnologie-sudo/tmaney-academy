@@ -162,8 +162,10 @@ export function BridalPrograms() {
     <section className="border-t border-border py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">100% En ligne</p>
-          <h1 className="mt-5 text-4xl sm:text-5xl">Nos formations</h1>
+          <p className="eyebrow">100% en ligne sur Télégram</p>
+          <h1 className="mt-5 text-4xl sm:text-5xl">
+            Bridal <span className="gold-text italic">MasterClass</span>
+          </h1>
           <div className="gold-rule mx-auto mt-7 max-w-[10rem]" />
           <p className="mt-7 leading-relaxed text-muted-foreground">
             Formez-vous à la haute couture bridal à votre rythme, où que vous soyez.
