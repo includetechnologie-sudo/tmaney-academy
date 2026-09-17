@@ -77,6 +77,7 @@ const modules: BridalProgram[] = [
 const pack: BridalProgram = {
   id: "pack-bridal",
   title: "PACK Complet Bridal + Bonus",
+  image: "/images/pack-vip.jpg",
   priceBarre: "140 000 FCFA",
   pricePromo: "100 000 FCFA",
   points: [
