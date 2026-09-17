@@ -2,6 +2,12 @@ import { Check, Loader2, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -11,6 +17,33 @@ import {
 import { COUNTRIES, providerForCountry } from "@/lib/dial-codes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { GoldParticles } from "./brand";
+
+const faqs = [
+  {
+    q: "Combien de temps dure la formation ?",
+    a: "La formation est 100 % en ligne et à votre rythme. Une fois votre inscription validée, vous bénéficiez d'un accès illimité et à vie à l'ensemble des vidéos.",
+  },
+  {
+    q: "Comment poser mes questions si je rencontre une difficulté pendant les cours ?",
+    a: "Vous bénéficiez d'un coaching d'une durée d'1 mois pour chaque module acheté (3 mois pour le pack complet). Vous pourrez poser vos questions dans le groupe privé, partager vos réalisations et recevoir l'accompagnement direct de la formatrice.",
+  },
+  {
+    q: "Quels sont les moyens de paiement acceptés ?",
+    a: "Nous acceptons les paiements sécurisés par Mobile Money (M-Pesa, Orange Money, MTN) ainsi que les cartes bancaires (VISA / Mastercard). L'accès à votre formation est débloqué automatiquement dès la validation du paiement.",
+  },
+  {
+    q: "Quel est le niveau nécessaire pour suivre la Bridal Masterclass ?",
+    a: "Cette formation est conçue pour les stylistes et modélistes ayant déjà les bases de la couture souhaitant se perfectionner dans les techniques de Haute Couture.",
+  },
+  {
+    q: "Où se déroule la formation ?",
+    a: "La formation est 100 % en ligne via l'application Télégram, disponible sur smartphone, tablette ou ordinateur.",
+  },
+  {
+    q: "Recevrai-je un certificat à la fin de la formation ?",
+    a: "Oui, un certificat de fin de formation T.Maney Academy vous sera délivré après la validation de vos projets pratiques.",
+  },
+];
 
 interface BridalProgram {
   id: string;
@@ -228,6 +261,28 @@ export function BridalPrograms() {
 
         <div className="mt-8">
           <ProgramCard program={pack} onSelect={setSelected} />
+        </div>
+
+        {/* Foire aux questions */}
+        <div className="mx-auto mt-20 max-w-3xl sm:mt-28">
+          <div className="text-center">
+            <p className="eyebrow">Questions fréquentes</p>
+            <h2 className="mt-5 text-4xl sm:text-5xl">Foire aux questions</h2>
+            <div className="gold-rule mx-auto mt-7 max-w-[10rem]" />
+          </div>
+
+          <Accordion type="single" collapsible className="mt-12 w-full">
+            {faqs.map((item, i) => (
+              <AccordionItem key={item.q} value={`faq-${i}`} className="border-border">
+                <AccordionTrigger className="py-5 text-base font-semibold text-foreground hover:no-underline sm:text-lg">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-foreground/80 sm:text-base">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
 
