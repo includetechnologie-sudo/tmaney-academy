@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/dialog";
 import { COUNTRIES, providerForCountry } from "@/lib/dial-codes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { GoldParticles } from "./brand";
 
 interface BridalProgram {
   id: string;
   title: string;
+  image?: string;
   priceBarre: string;
   pricePromo: string;
   points: string[];
@@ -24,6 +26,7 @@ const modules: BridalProgram[] = [
   {
     id: "bridal-1",
     title: "Module 1 : Bridal 1",
+    image: "/images/bridal-module1.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
     points: [
@@ -40,6 +43,7 @@ const modules: BridalProgram[] = [
   {
     id: "bridal-2",
     title: "Module 2 : Bridal 2",
+    image: "/images/bridal-module2.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
     points: [
@@ -55,6 +59,7 @@ const modules: BridalProgram[] = [
   {
     id: "bridal-3",
     title: "Module 3 : Bridal 3",
+    image: "/images/bridal-module3.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
     points: [
@@ -97,39 +102,64 @@ function ProgramCard({
 }) {
   return (
     <article
-      className={`flex flex-col rounded-lg border p-6 transition-all sm:p-8 ${
+      className={`flex flex-col overflow-hidden rounded-lg border transition-all ${
         program.featured
           ? "border-gold bg-card shadow-[0_0_30px_-10px_var(--gold)]"
           : "border-border bg-card/60 hover:border-gold/50 hover:shadow-lg"
       }`}
     >
-      <h3 className="text-2xl font-semibold sm:text-3xl">{program.title}</h3>
+      {program.image && (
+        <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10]">
+          <img
+            src={program.image}
+            alt={program.title}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+          />
+          {/* Flou progressif style "aperçu limité" */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-1/2 backdrop-blur-md"
+            style={{
+              WebkitMaskImage: "linear-gradient(to bottom, transparent, black 80%)",
+              maskImage: "linear-gradient(to bottom, transparent, black 80%)",
+            }}
+          />
+          {/* Fondu doré qui dissout l'image dans la carte */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-card" />
+          {/* Étincelles dorées qui montent */}
+          <GoldParticles />
+        </div>
+      )}
 
-      <div className="my-6 flex items-baseline gap-3">
-        <span className="text-sm text-muted-foreground line-through">{program.priceBarre}</span>
-        <span className="text-3xl font-bold text-gold">{program.pricePromo}</span>
+      <div className="flex flex-1 flex-col p-6 sm:p-8">
+        {!program.image && <h3 className="text-2xl font-semibold sm:text-3xl">{program.title}</h3>}
+
+        <div className={`flex items-baseline gap-3 ${program.image ? "" : "mt-6"}`}>
+          <span className="text-sm text-muted-foreground line-through">{program.priceBarre}</span>
+          <span className="text-3xl font-bold text-gold">{program.pricePromo}</span>
+        </div>
+
+        <ul className="mb-8 mt-6 flex-1 space-y-3 text-sm text-muted-foreground">
+          {program.points.map((pt) => (
+            <li key={pt} className="flex gap-3">
+              <Check className="mt-0.5 shrink-0 text-gold" size={16} />
+              {pt}
+            </li>
+          ))}
+        </ul>
+
+        <button
+          type="button"
+          onClick={() => onSelect(program)}
+          className={`mt-auto rounded-lg px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] transition-all ${
+            program.featured
+              ? "bg-gold text-primary-foreground shadow-md hover:opacity-90 hover:shadow-lg"
+              : "border-2 border-gold/60 text-gold hover:border-gold hover:bg-gold/5"
+          }`}
+        >
+          Payer maintenant
+        </button>
       </div>
-
-      <ul className="mb-8 flex-1 space-y-3 text-sm text-muted-foreground">
-        {program.points.map((pt) => (
-          <li key={pt} className="flex gap-3">
-            <Check className="mt-0.5 shrink-0 text-gold" size={16} />
-            {pt}
-          </li>
-        ))}
-      </ul>
-
-      <button
-        type="button"
-        onClick={() => onSelect(program)}
-        className={`mt-auto rounded-lg px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.24em] transition-all ${
-          program.featured
-            ? "bg-gold text-primary-foreground shadow-md hover:opacity-90 hover:shadow-lg"
-            : "border-2 border-gold/60 text-gold hover:border-gold hover:bg-gold/5"
-        }`}
-      >
-        Payer maintenant
-      </button>
     </article>
   );
 }
