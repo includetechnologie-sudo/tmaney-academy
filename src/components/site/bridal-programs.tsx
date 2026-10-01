@@ -116,9 +116,9 @@ const modules: BridalProgram[] = [
 const testModule: BridalProgram = {
   id: "test-group",
   title: "Groupe Test",
-  priceBarre: "1 000 FCFA",
-  pricePromo: "1 000 FCFA",
-  priceAmount: 1000,
+  priceBarre: "200 FCFA",
+  pricePromo: "200 FCFA",
+  priceAmount: 200,
   points: ["Module de test interne pour valider le paiement MyCoolPay"],
 };
 
