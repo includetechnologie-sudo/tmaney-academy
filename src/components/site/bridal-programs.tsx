@@ -253,13 +253,31 @@ export function BridalPrograms() {
       try {
         // L'API My-CoolPay attend l'indicatif + le numéro en chiffres, sans "+".
         const paymentPhone = `${country.dialCode.replace("+", "")}${localDigits}`;
-        const paymentUrl = await createMyCoolPayLink(MYCOOLPAY_PUBLIC_KEY, {
+        const { paymentUrl, transactionRef } = await createMyCoolPayLink(MYCOOLPAY_PUBLIC_KEY, {
           amount: selected.priceAmount,
           reason: `${selected.title} — T.Maney Academy`,
           customerName: fullName,
           customerPhone: paymentPhone,
           extraParams: { formation: selected.id, nom: fullName },
         });
+
+        // Filet de secours si la redirection de retour échoue (connexion
+        // coupée, onglet fermé) : la page de confirmation peut revérifier ce
+        // paiement via sa référence, même sans les paramètres d'URL.
+        try {
+          localStorage.setItem(
+            "tmaney_pending_payment",
+            JSON.stringify({
+              transactionRef,
+              formation: selected.id,
+              nom: fullName,
+              ts: Date.now(),
+            }),
+          );
+        } catch {
+          // Stockage indisponible (navigation privée, etc.) : on continue sans filet.
+        }
+
         window.location.href = paymentUrl;
       } catch {
         setState("idle");
@@ -297,6 +315,12 @@ export function BridalPrograms() {
           <p className="mt-7 leading-relaxed text-muted-foreground">
             Formez-vous à la haute couture bridal à votre rythme, où que vous soyez.
           </p>
+          <a
+            href="/paiement-succes.html"
+            className="mt-4 inline-block text-xs text-muted-foreground underline underline-offset-4 hover:text-gold"
+          >
+            Déjà payé mais pas reçu votre lien ? Vérifiez votre paiement
+          </a>
         </div>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-3">

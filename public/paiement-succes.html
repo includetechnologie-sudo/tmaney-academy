@@ -111,42 +111,122 @@
         "test-group": { name: "Groupe Test", telegram: "https://t.me/+dNtMoks1-_ZhNTNk" },
       };
       var WHATSAPP_NUMBER = "237697216348";
+      var MYCOOLPAY_PUBLIC_KEY = "40b4a1ed-11a0-4735-9013-5b281f5e2ee8";
+      var PENDING_KEY = "tmaney_pending_payment";
 
-      var params = new URLSearchParams(window.location.search);
-      var nom = params.get("nom") || "";
-      var formationId = params.get("formation") || "";
-      var formation = FORMATIONS[formationId];
-      var formationName = formation ? formation.name : "";
-      var transactionRef = params.get("transaction_ref") || params.get("ref") || "";
-
+      var messageEl = document.getElementById("message");
       var telegramLink = document.getElementById("telegram-link");
       var whatsappLink = document.getElementById("whatsapp-link");
 
-      if (formation) {
-        document.getElementById("message").textContent =
+      function showTelegramSuccess(formation, nom) {
+        messageEl.textContent =
           (nom ? "Merci " + nom + ", " : "Merci, ") +
-          "votre paiement pour « " + formationName + " » a bien été reçu. " +
+          "votre paiement pour « " + formation.name + " » a bien été reçu. " +
           "Cliquez ci-dessous pour rejoindre directement le groupe Télégram de la formation.";
-
         telegramLink.href = formation.telegram;
         telegramLink.style.display = "";
         whatsappLink.classList.add("btn-secondary");
-      } else {
-        whatsappLink.classList.add("btn-primary");
-        whatsappLink.textContent = "Récupérer mon accès sur WhatsApp";
+        setWhatsappText(formation.name, nom, "Je n'arrive pas à accéder au groupe Télégram, merci de m'aider.");
       }
 
-      var waText = [
-        "Bonjour T.Maney Academy, je viens de payer",
-        formationName ? "la formation : " + formationName : "ma formation",
-        nom ? "Nom : " + nom : "",
-        transactionRef ? "Référence : " + transactionRef : "",
-        formation ? "Je n'arrive pas à accéder au groupe Télégram, merci de m'aider." : "Merci de me donner accès au groupe Télégram.",
-      ]
-        .filter(Boolean)
-        .join("\n");
+      function showGenericFallback() {
+        whatsappLink.classList.add("btn-primary");
+        whatsappLink.textContent = "Récupérer mon accès sur WhatsApp";
+        setWhatsappText("", "", "Merci de me donner accès au groupe Télégram.");
+      }
 
-      whatsappLink.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(waText);
+      function setWhatsappText(formationName, nom, closing) {
+        var text = [
+          "Bonjour T.Maney Academy, je viens de payer",
+          formationName ? "la formation : " + formationName : "ma formation",
+          nom ? "Nom : " + nom : "",
+          closing,
+        ]
+          .filter(Boolean)
+          .join("\n");
+        whatsappLink.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+      }
+
+      function getPendingPayment() {
+        try {
+          var raw = localStorage.getItem(PENDING_KEY);
+          if (!raw) return null;
+          var data = JSON.parse(raw);
+          // Ignore les entrées de plus de 48h (opérateur mobile money trop lent, etc.)
+          if (!data.transactionRef || Date.now() - data.ts > 48 * 60 * 60 * 1000) return null;
+          return data;
+        } catch {
+          return null;
+        }
+      }
+
+      function clearPendingPayment() {
+        try {
+          localStorage.removeItem(PENDING_KEY);
+        } catch {
+          // ignore
+        }
+      }
+
+      // 1) Chemin rapide : les paramètres passés à MyCoolPay sont revenus intacts dans l'URL.
+      var params = new URLSearchParams(window.location.search);
+      var urlFormationId = params.get("formation") || "";
+      var urlFormation = FORMATIONS[urlFormationId];
+
+      if (urlFormation) {
+        showTelegramSuccess(urlFormation, params.get("nom") || "");
+        clearPendingPayment();
+      } else {
+        // 2) Filet de secours : la redirection a perdu ses paramètres (connexion
+        // coupée, onglet fermé puis rouvert...). On revérifie directement auprès
+        // de MyCoolPay via la référence de transaction sauvegardée localement.
+        var pending = getPendingPayment();
+        var pendingFormation = pending ? FORMATIONS[pending.formation] : null;
+
+        if (pending && pendingFormation) {
+          messageEl.textContent = "Vérification de votre paiement en cours…";
+          whatsappLink.style.display = "none";
+
+          fetch("https://my-coolpay.com/api/" + MYCOOLPAY_PUBLIC_KEY + "/checkStatus/" + pending.transactionRef)
+            .then(function (res) {
+              return res.json();
+            })
+            .then(function (payload) {
+              whatsappLink.style.display = "";
+              var txStatus = payload && payload.transaction_status;
+
+              if (payload && payload.status === "success" && txStatus === "SUCCESS") {
+                showTelegramSuccess(pendingFormation, pending.nom);
+                clearPendingPayment();
+              } else if (txStatus === "PENDING" || txStatus === "CREATED") {
+                messageEl.textContent =
+                  "Votre paiement pour « " +
+                  pendingFormation.name +
+                  " » est encore en cours de traitement auprès de l'opérateur. " +
+                  "Patientez quelques instants puis rafraîchissez cette page.";
+                showGenericFallback();
+              } else {
+                messageEl.textContent =
+                  "Nous n'avons pas trouvé de paiement confirmé pour votre dernière tentative (« " +
+                  pendingFormation.name +
+                  " »). Si vous avez bien payé, contactez-nous sur WhatsApp avec votre référence.";
+                setWhatsappText(pendingFormation.name, pending.nom, "Référence : " + pending.transactionRef + ". Mon paiement n'a pas été confirmé sur le site, pouvez-vous vérifier ?");
+                showGenericFallback();
+                clearPendingPayment();
+              }
+            })
+            .catch(function () {
+              whatsappLink.style.display = "";
+              messageEl.textContent =
+                "Impossible de vérifier votre paiement pour le moment (connexion instable). " +
+                "Rafraîchissez cette page dans un instant, ou contactez-nous sur WhatsApp.";
+              showGenericFallback();
+            });
+        } else {
+          messageEl.textContent = "Merci pour votre confiance. Votre paiement a bien été reçu par T.Maney Academy.";
+          showGenericFallback();
+        }
+      }
     </script>
   </body>
 </html>
