@@ -112,16 +112,6 @@ const modules: BridalProgram[] = [
   },
 ];
 
-// Module interne pour tester le paiement MyCoolPay en conditions réelles (petit montant).
-const testModule: BridalProgram = {
-  id: "test-group",
-  title: "Groupe Test",
-  priceBarre: "200 FCFA",
-  pricePromo: "200 FCFA",
-  priceAmount: 200,
-  points: ["Module de test interne pour valider le paiement MyCoolPay"],
-};
-
 const pack: BridalProgram = {
   id: "pack-bridal",
   title: "PACK Complet Bridal + Bonus",
@@ -331,11 +321,6 @@ export function BridalPrograms() {
 
         <div className="mt-8">
           <ProgramCard program={pack} onSelect={setSelected} />
-        </div>
-
-        {/* Module de test interne — à retirer une fois les tests de paiement terminés */}
-        <div className="mt-8 max-w-sm">
-          <ProgramCard program={testModule} onSelect={setSelected} />
         </div>
 
         {/* Foire aux questions */}
