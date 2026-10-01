@@ -92,33 +92,47 @@
         Merci pour votre confiance. Votre paiement a bien été reçu par T.Maney Academy.
       </p>
       <div class="actions">
-        <a id="whatsapp-link" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">
-          Récupérer mon accès sur WhatsApp
+        <a id="telegram-link" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer" style="display: none">
+          Rejoindre le groupe Télégram
+        </a>
+        <a id="whatsapp-link" class="btn" href="#" target="_blank" rel="noopener noreferrer">
+          Besoin d'aide ? Nous écrire sur WhatsApp
         </a>
         <a class="btn btn-secondary" href="/formations-en-ligne">Retour aux formations</a>
       </div>
     </main>
 
     <script>
-      var FORMATION_NAMES = {
-        "bridal-1": "Module 1 : Bridal 1",
-        "bridal-2": "Module 2 : Bridal 2",
-        "bridal-3": "Module 3 : Bridal 3",
-        "pack-bridal": "PACK Complet Bridal + Bonus",
+      var FORMATIONS = {
+        "bridal-1": { name: "Module 1 : Bridal 1", telegram: "https://t.me/+ZDgJ12VBedgzYjE0" },
+        "bridal-2": { name: "Module 2 : Bridal 2", telegram: "https://t.me/+YLhVOOkJVmBlM2Q0" },
+        "bridal-3": { name: "Module 3 : Bridal 3", telegram: "https://t.me/+JSEzXSQctL4wZjQ8" },
+        "pack-bridal": { name: "PACK Complet Bridal + Bonus", telegram: "https://t.me/+pDDA69YoffZiZTFk" },
       };
       var WHATSAPP_NUMBER = "237697216348";
 
       var params = new URLSearchParams(window.location.search);
       var nom = params.get("nom") || "";
       var formationId = params.get("formation") || "";
-      var formationName = FORMATION_NAMES[formationId] || "";
+      var formation = FORMATIONS[formationId];
+      var formationName = formation ? formation.name : "";
       var transactionRef = params.get("transaction_ref") || params.get("ref") || "";
 
-      if (formationName) {
+      var telegramLink = document.getElementById("telegram-link");
+      var whatsappLink = document.getElementById("whatsapp-link");
+
+      if (formation) {
         document.getElementById("message").textContent =
           (nom ? "Merci " + nom + ", " : "Merci, ") +
           "votre paiement pour « " + formationName + " » a bien été reçu. " +
-          "Écrivez-nous sur WhatsApp pour recevoir votre accès au groupe Télégram de la formation.";
+          "Cliquez ci-dessous pour rejoindre directement le groupe Télégram de la formation.";
+
+        telegramLink.href = formation.telegram;
+        telegramLink.style.display = "";
+        whatsappLink.classList.add("btn-secondary");
+      } else {
+        whatsappLink.classList.add("btn-primary");
+        whatsappLink.textContent = "Récupérer mon accès sur WhatsApp";
       }
 
       var waText = [
@@ -126,13 +140,12 @@
         formationName ? "la formation : " + formationName : "ma formation",
         nom ? "Nom : " + nom : "",
         transactionRef ? "Référence : " + transactionRef : "",
-        "Merci de me donner accès au groupe Télégram.",
+        formation ? "Je n'arrive pas à accéder au groupe Télégram, merci de m'aider." : "Merci de me donner accès au groupe Télégram.",
       ]
         .filter(Boolean)
         .join("\n");
 
-      document.getElementById("whatsapp-link").href =
-        "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(waText);
+      whatsappLink.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(waText);
     </script>
   </body>
 </html>
