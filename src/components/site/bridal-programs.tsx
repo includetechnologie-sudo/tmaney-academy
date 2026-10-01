@@ -15,7 +15,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { COUNTRIES, providerForCountry } from "@/lib/dial-codes";
-import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { MYCOOLPAY_PUBLIC_KEY, WHATSAPP_NUMBER } from "@/lib/constants";
+import { createMyCoolPayLink } from "@/lib/mycoolpay";
 import { GoldParticles } from "./brand";
 
 const faqs = [
@@ -51,6 +52,7 @@ interface BridalProgram {
   image?: string;
   priceBarre: string;
   pricePromo: string;
+  priceAmount: number;
   points: string[];
   featured?: boolean;
 }
@@ -62,6 +64,7 @@ const modules: BridalProgram[] = [
     image: "/images/bridal-module1.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
+    priceAmount: 45000,
     points: [
       "Robe corset avec fermeture invisible",
       "Ingénierie du corset de mariée",
@@ -79,6 +82,7 @@ const modules: BridalProgram[] = [
     image: "/images/bridal-module2.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
+    priceAmount: 45000,
     points: [
       "Robe de mariée sans couture apparente",
       "Corset transparent spécial mariée",
@@ -95,6 +99,7 @@ const modules: BridalProgram[] = [
     image: "/images/bridal-module3.jpg",
     priceBarre: "55 000 FCFA",
     pricePromo: "45 000 FCFA",
+    priceAmount: 45000,
     points: [
       "Robe princesse volumineuse en transparence",
       "Corset transparent à bonnet",
@@ -113,6 +118,7 @@ const pack: BridalProgram = {
   image: "/images/pack-vip.jpg",
   priceBarre: "140 000 FCFA",
   pricePromo: "100 000 FCFA",
+  priceAmount: 100000,
   points: [
     "Les 3 modules Bridal 1, 2 et 3",
     "Bonus exclusifs offerts",
@@ -204,6 +210,7 @@ export function BridalPrograms() {
   const [countryIso2, setCountryIso2] = useState("CM");
   const [localPhone, setLocalPhone] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
+  const [error, setError] = useState<string | null>(null);
 
   const country = COUNTRIES.find((c) => c.iso2 === countryIso2) ?? COUNTRIES[0]!;
   const provider = providerForCountry(country.iso2);
@@ -212,18 +219,47 @@ export function BridalPrograms() {
     if (!open) {
       setSelected(null);
       setState("idle");
+      setError(null);
       setFullName("");
       setLocalPhone("");
     }
   }
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!selected) return;
     setState("sending");
+    setError(null);
 
-    const fullPhone = `${country.dialCode}${localPhone.replace(/\D/g, "")}`;
-    const providerLabel = provider === "pawapay" ? "PawaPay (Mobile Money)" : "MyCoolPay";
+    const localDigits = localPhone.replace(/\D/g, "");
+    const fullPhone = `${country.dialCode}${localDigits}`;
+
+    if (provider === "mycoolpay") {
+      if (!MYCOOLPAY_PUBLIC_KEY) {
+        setState("idle");
+        setError("Le paiement en ligne n'est pas encore configuré. Contactez-nous sur WhatsApp.");
+        return;
+      }
+      try {
+        // L'API My-CoolPay attend l'indicatif + le numéro en chiffres, sans "+".
+        const paymentPhone = `${country.dialCode.replace("+", "")}${localDigits}`;
+        const paymentUrl = await createMyCoolPayLink(MYCOOLPAY_PUBLIC_KEY, {
+          amount: selected.priceAmount,
+          reason: `${selected.title} — T.Maney Academy`,
+          customerName: fullName,
+          customerPhone: paymentPhone,
+          extraParams: { formation: selected.id, nom: fullName },
+        });
+        window.location.href = paymentUrl;
+      } catch {
+        setState("idle");
+        setError(
+          "Impossible de générer le lien de paiement pour le moment. Réessayez ou contactez-nous sur WhatsApp.",
+        );
+      }
+      return;
+    }
+
     const text = [
       "Nouvelle demande — Formation en ligne T.Maney Academy",
       `Nom : ${fullName}`,
@@ -231,7 +267,7 @@ export function BridalPrograms() {
       `Pays : ${country.flag} ${country.name}`,
       `Formation : ${selected.title}`,
       `Montant : ${selected.pricePromo}`,
-      `Moyen de paiement : ${providerLabel}`,
+      "Moyen de paiement : PawaPay (Mobile Money)",
     ].join("\n");
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
@@ -294,8 +330,8 @@ export function BridalPrograms() {
               <h3 className="mt-4 text-2xl">Demande envoyée</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Un onglet WhatsApp vient de s'ouvrir avec le récapitulatif de votre commande.
-                Confirmez l'envoi du message pour recevoir votre lien de paiement sécurisé (
-                {provider === "pawapay" ? "PawaPay" : "MyCoolPay"}) et démarrer votre formation.
+                Confirmez l'envoi du message pour recevoir votre lien de paiement sécurisé (PawaPay)
+                et démarrer votre formation.
               </p>
             </div>
           ) : (
@@ -364,11 +400,19 @@ export function BridalPrograms() {
                 </div>
 
                 <p className="text-xs leading-relaxed text-muted-foreground">
-                  Paiement proposé :{" "}
-                  <span className="text-gold">
-                    {provider === "pawapay" ? "PawaPay (Mobile Money)" : "MyCoolPay"}
-                  </span>
+                  {provider === "mycoolpay" ? (
+                    <>
+                      Vous serez redirigé(e) vers la page de paiement sécurisée{" "}
+                      <span className="text-gold">MyCoolPay</span> (Mobile Money ou carte bancaire).
+                    </>
+                  ) : (
+                    <>
+                      Paiement proposé : <span className="text-gold">PawaPay (Mobile Money)</span>
+                    </>
+                  )}
                 </p>
+
+                {error && <p className="text-xs leading-relaxed text-destructive">{error}</p>}
 
                 <button
                   type="submit"

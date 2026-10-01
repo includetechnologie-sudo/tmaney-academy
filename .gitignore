@@ -27,6 +27,10 @@ build
 # Configuration SFTP (contient des mots de passe)
 .vscode/sftp.json
 
+# Secrets serveur (clé privée MyCoolPay, jamais dans Git)
+public/api/secrets.local.php
+public/api/payments-log.csv
+
 # OS
 .DS_Store
 Thumbs.db

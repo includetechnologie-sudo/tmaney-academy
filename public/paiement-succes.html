@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Paiement confirmé — T.Maney Academy</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <style>
+      :root {
+        --background: oklch(0.9 0.009 85);
+        --foreground: oklch(0.2 0.01 60);
+        --card: oklch(0.97 0.005 90);
+        --muted-foreground: oklch(0.45 0.015 70);
+        --gold: oklch(0.78 0.107 85);
+        --gold-deep: oklch(0.62 0.096 80);
+        --border: oklch(0.78 0.107 85 / 30%);
+        --primary-foreground: oklch(0.12 0.006 60);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .card {
+        width: 100%;
+        max-width: 32rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 2.5rem 2rem;
+        text-align: center;
+      }
+      .icon {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 1.25rem;
+        color: var(--gold-deep);
+      }
+      h1 {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 2.25rem;
+        font-weight: 500;
+        margin: 0 0 0.75rem;
+      }
+      p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--muted-foreground);
+        margin: 0 0 1.75rem;
+      }
+      .rule {
+        width: 10rem;
+        height: 1px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+      .actions { display: flex; flex-direction: column; gap: 0.75rem; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 1rem 1.5rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        text-decoration: none;
+        border-radius: 0.25rem;
+      }
+      .btn-primary { background: var(--gold); color: var(--primary-foreground); }
+      .btn-secondary { background: transparent; color: var(--foreground); border: 1px solid var(--border); }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8.5 12.5l2.5 2.5 5-5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <h1>Paiement confirmé</h1>
+      <div class="rule"></div>
+      <p id="message">
+        Merci pour votre confiance. Votre paiement a bien été reçu par T.Maney Academy.
+      </p>
+      <div class="actions">
+        <a id="whatsapp-link" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">
+          Récupérer mon accès sur WhatsApp
+        </a>
+        <a class="btn btn-secondary" href="/formations-en-ligne">Retour aux formations</a>
+      </div>
+    </main>
+
+    <script>
+      var FORMATION_NAMES = {
+        "bridal-1": "Module 1 : Bridal 1",
+        "bridal-2": "Module 2 : Bridal 2",
+        "bridal-3": "Module 3 : Bridal 3",
+        "pack-bridal": "PACK Complet Bridal + Bonus",
+      };
+      var WHATSAPP_NUMBER = "237697216348";
+
+      var params = new URLSearchParams(window.location.search);
+      var nom = params.get("nom") || "";
+      var formationId = params.get("formation") || "";
+      var formationName = FORMATION_NAMES[formationId] || "";
+      var transactionRef = params.get("transaction_ref") || params.get("ref") || "";
+
+      if (formationName) {
+        document.getElementById("message").textContent =
+          (nom ? "Merci " + nom + ", " : "Merci, ") +
+          "votre paiement pour « " + formationName + " » a bien été reçu. " +
+          "Écrivez-nous sur WhatsApp pour recevoir votre accès au groupe Télégram de la formation.";
+      }
+
+      var waText = [
+        "Bonjour T.Maney Academy, je viens de payer",
+        formationName ? "la formation : " + formationName : "ma formation",
+        nom ? "Nom : " + nom : "",
+        transactionRef ? "Référence : " + transactionRef : "",
+        "Merci de me donner accès au groupe Télégram.",
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      document.getElementById("whatsapp-link").href =
+        "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(waText);
+    </script>
+  </body>
+</html>
