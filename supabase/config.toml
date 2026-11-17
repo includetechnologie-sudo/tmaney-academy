@@ -1,1 +1,6 @@
 project_id = "evnmxlwzbytavupkonqc"
+
+# PawaPay nous appelle directement (pas de session Supabase) : la vérification
+# JWT par défaut doit être désactivée pour ce webhook.
+[functions.pawapay-callback]
+verify_jwt = false

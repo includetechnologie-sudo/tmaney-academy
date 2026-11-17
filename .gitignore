@@ -45,3 +45,6 @@ yarn-error.log*
 .cache
 .parcel-cache
 .turbo
+
+# Supabase CLI (état local, pas du code source)
+supabase/.temp

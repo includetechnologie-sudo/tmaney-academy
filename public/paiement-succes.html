@@ -111,6 +111,11 @@
       };
       var WHATSAPP_NUMBER = "237697216348";
       var MYCOOLPAY_PUBLIC_KEY = "40b4a1ed-11a0-4735-9013-5b281f5e2ee8";
+      // Clés publiques (safe côté navigateur, même posture que MYCOOLPAY_PUBLIC_KEY
+      // ci-dessus) : elles ne permettent d'appeler que l'Edge Function "pawapay",
+      // qui seule détient le vrai secret PawaPay côté serveur.
+      var SUPABASE_URL = "https://c--0f717784-3869-48f5-a937-407d6691ba56-prod.lovable.cloud";
+      var SUPABASE_PUBLISHABLE_KEY = "sb_publishable_h5mR9-hjZc_uG6CrDDrM0g_hVH7C3aN";
       var PENDING_KEY = "tmaney_pending_payment";
 
       var messageEl = document.getElementById("message");
@@ -152,7 +157,7 @@
           if (!raw) return null;
           var data = JSON.parse(raw);
           // Ignore les entrées de plus de 48h (opérateur mobile money trop lent, etc.)
-          if (!data.transactionRef || Date.now() - data.ts > 48 * 60 * 60 * 1000) return null;
+          if (!(data.transactionRef || data.depositId) || Date.now() - data.ts > 48 * 60 * 60 * 1000) return null;
           return data;
         } catch {
           return null;
@@ -167,64 +172,128 @@
         }
       }
 
-      // 1) Chemin rapide : les paramètres passés à MyCoolPay sont revenus intacts dans l'URL.
+      // Revérifie un dépôt PawaPay via l'Edge Function "pawapay" (seule
+      // détentrice du token secret PawaPay) — jamais d'appel direct à
+      // PawaPay depuis ce fichier statique.
+      function checkPawaPayStatus(depositId, knownFormation, knownNom) {
+        messageEl.textContent = "Vérification de votre paiement en cours…";
+        whatsappLink.style.display = "none";
+
+        fetch(SUPABASE_URL + "/functions/v1/pawapay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_PUBLISHABLE_KEY,
+            Authorization: "Bearer " + SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify({ action: "status", depositId: depositId }),
+        })
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (payload) {
+            whatsappLink.style.display = "";
+            var formation = (payload && FORMATIONS[payload.productId]) || knownFormation;
+            var nom = (payload && payload.fullName) || knownNom || "";
+
+            if (payload && payload.status === "paid" && formation) {
+              showTelegramSuccess(formation, nom);
+              clearPendingPayment();
+            } else if (payload && payload.status === "pending") {
+              messageEl.textContent =
+                "Votre paiement" +
+                (formation ? " pour « " + formation.name + " »" : "") +
+                " est encore en cours de validation par l'opérateur Mobile Money. " +
+                "Patientez quelques instants puis rafraîchissez cette page.";
+              showGenericFallback();
+            } else {
+              messageEl.textContent =
+                "Nous n'avons pas trouvé de paiement confirmé" +
+                (formation ? " pour « " + formation.name + " »" : "") +
+                ". Si vous avez bien validé le paiement sur votre téléphone, contactez-nous sur WhatsApp.";
+              setWhatsappText(
+                formation ? formation.name : "",
+                nom,
+                "Référence PawaPay : " + depositId + ". Mon paiement n'a pas été confirmé sur le site, pouvez-vous vérifier ?",
+              );
+              showGenericFallback();
+              clearPendingPayment();
+            }
+          })
+          .catch(function () {
+            whatsappLink.style.display = "";
+            messageEl.textContent =
+              "Impossible de vérifier votre paiement pour le moment (connexion instable). " +
+              "Rafraîchissez cette page dans un instant, ou contactez-nous sur WhatsApp.";
+            showGenericFallback();
+          });
+      }
+
       var params = new URLSearchParams(window.location.search);
+      var urlProvider = params.get("provider");
+      var urlDepositId = params.get("depositId");
       var urlFormationId = params.get("formation") || "";
       var urlFormation = FORMATIONS[urlFormationId];
+      var pending = getPendingPayment();
+      var pendingFormation = pending ? FORMATIONS[pending.formation] : null;
 
-      if (urlFormation) {
+      if (urlProvider === "pawapay" && urlDepositId) {
+        // Lien de secours ouvert depuis le dialog PawaPay après expiration du
+        // polling en page (voir bridal-programs.tsx).
+        checkPawaPayStatus(urlDepositId, urlFormation || null, params.get("nom") || "");
+      } else if (urlFormation && !urlProvider) {
+        // 1) Chemin rapide MyCoolPay : les paramètres passés sont revenus intacts dans l'URL.
         showTelegramSuccess(urlFormation, params.get("nom") || "");
         clearPendingPayment();
-      } else {
-        // 2) Filet de secours : la redirection a perdu ses paramètres (connexion
-        // coupée, onglet fermé puis rouvert...). On revérifie directement auprès
-        // de MyCoolPay via la référence de transaction sauvegardée localement.
-        var pending = getPendingPayment();
-        var pendingFormation = pending ? FORMATIONS[pending.formation] : null;
+      } else if (pending && pending.provider === "pawapay" && pending.depositId) {
+        // 2) Filet de secours PawaPay : revérification via l'Edge Function.
+        checkPawaPayStatus(pending.depositId, pendingFormation, pending.nom);
+      } else if (pending && pendingFormation && pending.transactionRef) {
+        // 2bis) Filet de secours MyCoolPay : la redirection a perdu ses
+        // paramètres (connexion coupée, onglet fermé puis rouvert...). On
+        // revérifie directement auprès de MyCoolPay via la référence de
+        // transaction sauvegardée localement (clé publique, sans backend).
+        messageEl.textContent = "Vérification de votre paiement en cours…";
+        whatsappLink.style.display = "none";
 
-        if (pending && pendingFormation) {
-          messageEl.textContent = "Vérification de votre paiement en cours…";
-          whatsappLink.style.display = "none";
+        fetch("https://my-coolpay.com/api/" + MYCOOLPAY_PUBLIC_KEY + "/checkStatus/" + pending.transactionRef)
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (payload) {
+            whatsappLink.style.display = "";
+            var txStatus = payload && payload.transaction_status;
 
-          fetch("https://my-coolpay.com/api/" + MYCOOLPAY_PUBLIC_KEY + "/checkStatus/" + pending.transactionRef)
-            .then(function (res) {
-              return res.json();
-            })
-            .then(function (payload) {
-              whatsappLink.style.display = "";
-              var txStatus = payload && payload.transaction_status;
-
-              if (payload && payload.status === "success" && txStatus === "SUCCESS") {
-                showTelegramSuccess(pendingFormation, pending.nom);
-                clearPendingPayment();
-              } else if (txStatus === "PENDING" || txStatus === "CREATED") {
-                messageEl.textContent =
-                  "Votre paiement pour « " +
-                  pendingFormation.name +
-                  " » est encore en cours de traitement auprès de l'opérateur. " +
-                  "Patientez quelques instants puis rafraîchissez cette page.";
-                showGenericFallback();
-              } else {
-                messageEl.textContent =
-                  "Nous n'avons pas trouvé de paiement confirmé pour votre dernière tentative (« " +
-                  pendingFormation.name +
-                  " »). Si vous avez bien payé, contactez-nous sur WhatsApp avec votre référence.";
-                setWhatsappText(pendingFormation.name, pending.nom, "Référence : " + pending.transactionRef + ". Mon paiement n'a pas été confirmé sur le site, pouvez-vous vérifier ?");
-                showGenericFallback();
-                clearPendingPayment();
-              }
-            })
-            .catch(function () {
-              whatsappLink.style.display = "";
+            if (payload && payload.status === "success" && txStatus === "SUCCESS") {
+              showTelegramSuccess(pendingFormation, pending.nom);
+              clearPendingPayment();
+            } else if (txStatus === "PENDING" || txStatus === "CREATED") {
               messageEl.textContent =
-                "Impossible de vérifier votre paiement pour le moment (connexion instable). " +
-                "Rafraîchissez cette page dans un instant, ou contactez-nous sur WhatsApp.";
+                "Votre paiement pour « " +
+                pendingFormation.name +
+                " » est encore en cours de traitement auprès de l'opérateur. " +
+                "Patientez quelques instants puis rafraîchissez cette page.";
               showGenericFallback();
-            });
-        } else {
-          messageEl.textContent = "Merci pour votre confiance. Votre paiement a bien été reçu par T.Maney Academy.";
-          showGenericFallback();
-        }
+            } else {
+              messageEl.textContent =
+                "Nous n'avons pas trouvé de paiement confirmé pour votre dernière tentative (« " +
+                pendingFormation.name +
+                " »). Si vous avez bien payé, contactez-nous sur WhatsApp avec votre référence.";
+              setWhatsappText(pendingFormation.name, pending.nom, "Référence : " + pending.transactionRef + ". Mon paiement n'a pas été confirmé sur le site, pouvez-vous vérifier ?");
+              showGenericFallback();
+              clearPendingPayment();
+            }
+          })
+          .catch(function () {
+            whatsappLink.style.display = "";
+            messageEl.textContent =
+              "Impossible de vérifier votre paiement pour le moment (connexion instable). " +
+              "Rafraîchissez cette page dans un instant, ou contactez-nous sur WhatsApp.";
+            showGenericFallback();
+          });
+      } else {
+        messageEl.textContent = "Merci pour votre confiance. Votre paiement a bien été reçu par T.Maney Academy.";
+        showGenericFallback();
       }
     </script>
   </body>

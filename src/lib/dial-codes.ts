@@ -5,8 +5,7 @@ export interface CountryOption {
   flag: string;
 }
 
-// Pays d'Afrique francophone (dont Congo-Brazzaville et RD Congo pour PawaPay),
-// complétés par les principaux pays de la diaspora francophone.
+// Pays d'Afrique francophone, complétés par les principaux pays de la diaspora francophone.
 export const COUNTRIES: CountryOption[] = [
   { iso2: "CM", name: "Cameroun", dialCode: "+237", flag: "🇨🇲" },
   { iso2: "CG", name: "Congo-Brazzaville", dialCode: "+242", flag: "🇨🇬" },
@@ -33,13 +32,3 @@ export const COUNTRIES: CountryOption[] = [
   { iso2: "CA", name: "Canada", dialCode: "+1", flag: "🇨🇦" },
   { iso2: "US", name: "États-Unis", dialCode: "+1", flag: "🇺🇸" },
 ];
-
-// Pays où PawaPay (Mobile Money) est utilisé comme moyen de paiement.
-// Tous les autres pays passent par MyCoolPay.
-const PAWAPAY_COUNTRIES = new Set(["CG", "CD"]);
-
-export type PaymentProvider = "pawapay" | "mycoolpay";
-
-export function providerForCountry(iso2: string): PaymentProvider {
-  return PAWAPAY_COUNTRIES.has(iso2) ? "pawapay" : "mycoolpay";
-}
